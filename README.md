@@ -21,7 +21,8 @@
 src/
   assets/          # шрифты, изображения, общие стили
   assets/styles/   # базовые SCSS: reset, layout, темы, анимации
-  components/      # UI-компоненты (например, UIButton)
+  components/      # UI-компоненты и UI Kit (например, UIButton, UIInput)
+  components/ui/   # базовые элементы UI Kit
   composables/     # композиции (например, useTheme)
   router/          # конфигурация маршрутов
   views/           # страницы приложения
@@ -40,6 +41,15 @@ src/
 ### Глобальные компоненты
 
 Глобальная регистрация компонент организована через `src/components/index.ts` (пример — `UIButton`). 【F:src/components/index.ts†L1-L8】
+
+### UI Kit
+
+Базовые элементы UI Kit находятся в `src/components/ui/`. Сейчас доступны:
+
+- `UIButton` — кнопка с вариантами (`primary`, `secondary`, `ghost`), размерами и состояниями.
+- `UIInput` — текстовый инпут с лейблом, подсказками и ошибками.
+
+Компоненты регистрируются глобально и готовы к расширению (иконки, доп. слоты, состояния). 【F:src/components/index.ts†L1-L22】
 
 ### Темизация
 
