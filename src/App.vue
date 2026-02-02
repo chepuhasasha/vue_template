@@ -1,13 +1,13 @@
 <template lang="pug">
-main.app
-  header.app__header
+main.app(v-testid="'root'")
+  header.app__header(v-testid="'header'")
     h1.app__title Vue template
-    UIButton(@click="toggle" testid='theme-toggle' rounded)
+    UIButton(@click="toggle" v-testid="'header-theme-toggle'" rounded)
       | {{ isDark ? 'Dark' : 'Light' }}
-  nav.app__nav
+  nav.app__nav(v-testid="'navigation'")
     RouterLink.app__link(to="/") Главная
     RouterLink.app__link(to="/about") О проекте
-  section.app__content
+  section.app__content(v-testid="'content'")
     RouterView
 </template>
 

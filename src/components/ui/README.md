@@ -41,16 +41,14 @@
 ### Примеры
 
 ```vue
-<template>
-  <UIButton variant="primary">Сохранить</UIButton>
-  <UIButton variant="secondary" size="s" rounded="false">Отмена</UIButton>
-  <UIButton variant="ghost" loading>Загрузка...</UIButton>
-  <UIButton>
-    <template #start>
-      <IconPlus />
-    </template>
-    Добавить
-  </UIButton>
+<template lang="pug">
+  UIButton(variant="primary") Сохранить
+  UIButton(variant="secondary" size="s" rounded="false") Отмена
+  UIButton(variant="ghost" loading) Загрузка...
+  UIButton
+    | Добавить
+    template(#start)
+      UiIcon(name="plus")
 </template>
 ```
 
@@ -104,13 +102,11 @@
 ### Примеры
 
 ```vue
-<template>
-  <UIInput v-model="email" label="Email" type="email" placeholder="name@example.com" />
-  <UIInput v-model="search" size="l" hint="Введите запрос">
-    <template #end>
-      <IconSearch />
-    </template>
-  </UIInput>
-  <UIInput v-model="password" type="password" error="Неверный пароль" />
+<template lang="pug"> 
+  UIInput(v-model="email" label="Email" type="email" placeholder="name@example.com")
+  UIInput(v-model="search" size="l" hint="Введите запрос")
+    template(#end)
+      UIIcon(name='searh')
+  UIInput(v-model="password" type="password" error="Неверный пароль")
 </template>
 ```

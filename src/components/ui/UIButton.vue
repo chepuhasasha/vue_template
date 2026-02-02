@@ -3,7 +3,6 @@ button.ui-button(
   :class="classes"
   :type="type"
   :disabled="isDisabled"
-  :data-testid="testid"
   :aria-busy="loading || undefined"
   :aria-disabled="isDisabled || undefined"
 )
@@ -33,7 +32,6 @@ const props = withDefaults(
     block?: boolean
     disabled?: boolean
     loading?: boolean
-    testid?: string
   }>(),
   {
     variant: 'primary',
@@ -43,7 +41,6 @@ const props = withDefaults(
     block: false,
     disabled: false,
     loading: false,
-    testid: undefined,
   },
 )
 

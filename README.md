@@ -53,6 +53,28 @@ src/
 
 [Подробная документация по использованию, пропсам и событиям](src/components/ui/README.md).
 
+### data-testid для автотестов
+
+В проекте есть глобальная директива `v-testid`, которая помогает быстро проставлять `data-testid` в разметке. Она поддерживает строку или объект с частями идентификатора и учитывает общий префикс, заданный при установке плагина. 【F:src/plugins/testId.ts†L1-L65】【F:src/utils/testId.ts†L1-L44】
+
+Регистрация выполняется в `main.ts` через плагин `testIdPlugin` (с префиксом `app`). 【F:src/main.ts†L9-L18】
+
+Пример использования директивы:
+
+```vue
+<template lang="pug">
+  main(v-testid="'root'")
+  UIButton(v-testid="{ id: 'submit', suffix: 'icon' }")
+</template>
+```
+
+Также доступна композиция `useTestId`, чтобы формировать идентификаторы в скрипте (например, для динамических атрибутов). 【F:src/composables/useTestId.ts†L1-L19】
+
+```ts
+const { getTestId } = useTestId()
+const testId = getTestId('submit')
+```
+
 ### Темизация
 
 Композиция `useTheme` управляет тёмной/светлой темой, используя `localStorage` и `matchMedia`. 【F:src/composables/useTheme.ts†L1-L34】
