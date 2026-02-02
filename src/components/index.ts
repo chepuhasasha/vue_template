@@ -7,17 +7,10 @@ const components = {
   UIInput,
 }
 
-/**
- * Регистрирует UI-компоненты как глобальные.
- */
-const install = (app: App) => {
-  Object.entries(components).forEach(([name, component]) => {
-    app.component(name, component)
-  })
-}
-
-export { UIButton, UIInput, install }
-
 export default {
-  install,
+  install(app: App) {
+    Object.entries(components).forEach(([name, component]) => {
+      app.component(name, component)
+    })
+  },
 }
