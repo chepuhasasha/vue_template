@@ -1,0 +1,16 @@
+@use 'sass:map';
+
+@mixin flex-center($gap: 0, $direction: row, $wrap: nowrap) {
+  display: flex;
+  flex-flow: $direction $wrap;
+  gap: $gap;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin text($size, $color: var(--c5), $weight: 400) {
+  color: $color;
+  font-size: $size;
+  font-weight: $weight;
+}
+
