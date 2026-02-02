@@ -1,17 +1,14 @@
 <template lang="pug">
-main
-  .test
-    h1 Vue template
-    p body text
-    UIButton(@click="toggle" testid='theme-toggle' rounded) {{ isDark ? 'Dark' : 'Light' }}
-  .test_2
-    UIButton(size='s' testid='btn-1') Button
-    UIButton(size='m' testid='btn-1') Button
-    UIButton(size='l' testid='btn-1' accent)
-      | Download #[b PDF]
-      template(v-slot:end)
-        span 123
-
+main.app
+  header.app__header
+    h1.app__title Vue template
+    UIButton(@click="toggle" testid='theme-toggle' rounded)
+      | {{ isDark ? 'Dark' : 'Light' }}
+  nav.app__nav
+    RouterLink.app__link(to="/") Главная
+    RouterLink.app__link(to="/about") О проекте
+  section.app__content
+    RouterView
 </template>
 
 <script setup lang="ts">
@@ -20,31 +17,42 @@ import { useTheme } from '@/composables/useTheme'
 const { isDark, toggle, set } = useTheme('dark', 'theme')
 </script>
 <style lang="scss">
-main {
-  grid-template-rows: max-content 1fr;
-  grid-template-columns: max-content 1fr;
-  padding: 40px;
-}
+.app {
+  display: grid;
+  grid-template-rows: max-content max-content 1fr;
+  gap: 24px;
+  padding: 32px;
 
-.test {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background: var(--bg-color-l2);
-  padding: 40px;
-  width: max-content;
-  height: max-content;
-
-  &_2 {
+  &__header {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border: 1px solid var(--bdr-color);
-    padding: 40px;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  p {
+  &__title {
+    font-size: 28px;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__link {
+    text-decoration: none;
     color: var(--txt-color-l2);
+
+    &.router-link-active {
+      color: var(--txt-color);
+      font-weight: 600;
+    }
+  }
+
+  &__content {
+    border-radius: 16px;
+    background: var(--bg-color-l2);
+    padding: 24px;
   }
 }
 </style>

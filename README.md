@@ -10,6 +10,7 @@
 - **Vite** — сборка и dev-сервер. 【F:package.json†L44-L45】
 - **TypeScript** — типизация. 【F:package.json†L43-L43】
 - **Pinia** — управление состоянием. 【F:package.json†L20-L24】
+- **Vue Router** — маршрутизация между страницами. 【F:package.json†L20-L24】
 - **Axios** — HTTP-клиент для запросов. 【F:package.json†L20-L24】
 - **PWA** — регистрация service worker через `vite-plugin-pwa`. 【F:package.json†L44-L45】
 - **ESLint** + **Stylelint** + **Prettier** — линтинг и форматирование. 【F:package.json†L26-L42】
@@ -23,13 +24,19 @@ src/
   assets/styles/   # базовые SCSS: reset, layout, темы, анимации
   components/      # UI-компоненты (например, UIButton)
   composables/     # композиции (например, useTheme)
+  router/          # конфигурация маршрутов
+  views/           # страницы приложения
   App.vue          # корневой компонент
   main.ts          # точка входа приложения
 ```
 
 ### Точка входа
 
-В `src/main.ts` инициализируется приложение, подключаются глобальные стили, Pinia, глобальные компоненты и регистрация PWA. 【F:src/main.ts†L1-L26】
+В `src/main.ts` инициализируется приложение, подключаются глобальные стили, Pinia, роутер, глобальные компоненты и регистрация PWA. 【F:src/main.ts†L1-L26】
+
+### Маршрутизация
+
+Конфигурация маршрутов находится в `src/router/index.ts`, страницы расположены в `src/views`. 【F:src/router/index.ts†L1-L21】
 
 ### Глобальные компоненты
 
