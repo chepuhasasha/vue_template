@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
+import { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN } from '@/router/constants'
 import { getSessionId } from '@/services'
 import HomeView from '@/views/Home/View.vue'
 import LoginView from '@/views/Login/View.vue'
 
-export const ROUTE_NAME_HOME = 'home' as const
-export const ROUTE_NAME_LOGIN = 'login' as const
+export { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN } from '@/router/constants'
 
 const REDIRECT_QUERY_KEY = 'redirect'
 const EMPTY_VALUE = ''

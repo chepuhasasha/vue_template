@@ -4,6 +4,28 @@
 
 Тесты маршрутов и гардов приложения.
 
+## Что проверяем
+
+- Гард `requiresAuth` на защищенных маршрутах.
+- Гард `guestOnly` на публичных маршрутах.
+- Параметр `redirect` при отправке гостя на login.
+- Имена маршрутов `ROUTE_NAME_HOME` и `ROUTE_NAME_LOGIN` (импортируйте из `src/router/constants.ts`).
+
+## Подход
+
+- Перед каждым тестом очищайте `localStorage`.
+- Для стабильности навигации используйте `router.replace(...)` и `router.isReady()`.
+- Для проверки сессии достаточно установить `session-id` в `localStorage`.
+
+Пример базовой навигации:
+
+```ts
+const navigateTo = async (path: string) => {
+  await router.push(path)
+  await router.isReady()
+}
+```
+
 ## Список тестов
 
 ### `tests/router/guards.spec.ts`

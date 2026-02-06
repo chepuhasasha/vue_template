@@ -22,7 +22,7 @@ import { useRouter } from 'vue-router'
 
 import { useI18n } from '@/composables'
 import { clearSessionId, getSessionId } from '@/services'
-import { ROUTE_NAME_LOGIN } from '@/router'
+import { ROUTE_NAME_LOGIN } from '@/router/constants'
 
 const EMPTY_LENGTH = 0
 

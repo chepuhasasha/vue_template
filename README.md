@@ -25,7 +25,7 @@
 | Скрипт                  | Описание                                                       |
 | ----------------------- | -------------------------------------------------------------- |
 | `npm run dev`           | Локальный dev-сервер Vite.                                     |
-| `npm run mock`          | Мок‑бэкенд для авторизации (Express, `serverMock.js`).          |
+| `npm run mock`          | Мок‑бэкенд API для разработки (Express, `serverMock.js`).       |
 | `npm run build`         | Полная сборка: `type-check` + `build-only`.                    |
 | `npm run preview`       | Предпросмотр production-сборки локально.                       |
 | `npm run build-only`    | Сборка Vite без проверки типов.                                |
@@ -50,16 +50,16 @@
 | `VITE_DISABLE_TEST_ID` | `true` / `false`                      | build            | Отключает генерацию `data-testid` через `v-testid`.      |
 | `VITE_TEST_ID_PREFIX`  | строка (например, `app`)              | build            | Глобальный префикс `data-testid` (для плагина `testId`). |
 | `VITE_NODE_ENV`        | `development` / `test` / `production` | build            | Значение `process.env.NODE_ENV`, прокидываемое в сборку. |
-| `VITE_API_BASE_URL`    | строка (например, `https://api`)      | build            | Базовый URL API для запросов авторизации.                |
+| `VITE_API_BASE_URL`    | строка (например, `https://api`)      | build            | Базовый URL API для запросов приложения.                 |
 
 Рекомендуемые значения:
 
-- dev: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=development`.
 - dev: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=development`, `VITE_API_BASE_URL=`.
 - test: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=test`, `VITE_API_BASE_URL=`.
 - prod: `VITE_DISABLE_TEST_ID=true`, `VITE_BASE_URL=/` (или `/<подпуть>/` при деплое в подпути), `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=production`, `VITE_API_BASE_URL=https://api.example.com`.
 
 `VITE_BASE_URL` задаёт base в Vite (в том числе `import.meta.env.BASE_URL`) и влияет на URL ассетов и роутинг.
+`VITE_API_BASE_URL` можно оставить пустым для same-origin запросов или указать адрес мок‑сервера/реального API.
 
 ## Сценарии
 
@@ -83,7 +83,7 @@
    npm run dev
    ```
 
-4. (Опционально) Запустите мок‑бэкенд:
+4. (Опционально) Запустите мок‑бэкенд API:
 
    ```bash
    npm run mock
@@ -94,6 +94,8 @@
    ```
    VITE_API_BASE_URL=http://localhost:3001
    ```
+
+   Сейчас в мок‑сервере реализован `POST /auth/login`, новые эндпойнты добавляйте в `serverMock.js`.
 
 5. Откройте приложение: `http://localhost:5173`.
 

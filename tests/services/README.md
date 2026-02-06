@@ -4,6 +4,30 @@
 
 Тесты сервисов для работы с внешними данными и состоянием сессии.
 
+## Что проверяем
+
+- Корректную сборку URL и параметров запросов.
+- Нормализацию входных данных и валидацию ответов.
+- Типы ошибок и коды ошибок, возвращаемые сервисом.
+- Побочные эффекты (например, запись в `localStorage`).
+
+## Подход
+
+- Запросы тестируйте через `vi.stubGlobal('fetch', ...)`.
+- Формируйте фейковый `Response` с `ok`, `status`, `json()`.
+- Для состояния сессии используйте `localStorage.clear()` в `beforeEach`.
+
+Пример мок-ответа:
+
+```ts
+const createResponse = (options: { ok: boolean; status: number; payload?: unknown }) =>
+  ({
+    ok: options.ok,
+    status: options.status,
+    json: vi.fn().mockResolvedValue(options.payload),
+  }) as Response
+```
+
 ## Список тестов
 
 ### `tests/services/auth.spec.ts`

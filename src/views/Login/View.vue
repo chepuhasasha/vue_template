@@ -49,7 +49,7 @@ import {
   login as loginRequest,
   saveSessionId,
 } from '@/services'
-import { ROUTE_NAME_HOME } from '@/router'
+import { ROUTE_NAME_HOME } from '@/router/constants'
 
 const MIN_LOGIN_LENGTH = 1
 const MIN_PASSWORD_LENGTH = 1

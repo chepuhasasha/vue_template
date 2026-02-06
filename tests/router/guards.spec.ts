@@ -1,5 +1,6 @@
 import { beforeEach, describe, it, expect } from 'vitest'
-import router, { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN } from '@/router'
+import router from '@/router'
+import { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN } from '@/router/constants'
 
 const STORED_SESSION_ID = 'sid-demo'
 

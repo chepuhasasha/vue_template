@@ -1,9 +1,11 @@
 import { render, screen, fireEvent, within } from '@testing-library/vue'
 import { flushPromises } from '@vue/test-utils'
+import { createRouter, createMemoryHistory, type Router } from 'vue-router'
+import { defineComponent } from 'vue'
 import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
 import LoginView from '@/views/Login/View.vue'
 import components from '@/components'
-import router, { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN } from '@/router'
+import { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN } from '@/router/constants'
 import { AUTH_ERROR_INVALID_CREDENTIALS } from '@/services'
 import { getTestId } from '../helpers'
 
@@ -14,6 +16,20 @@ const STORED_SESSION_ID = 'sid-demo'
 const REDIRECT_PATH = '/profile'
 const HTTP_STATUS_OK = 200
 const HTTP_STATUS_UNAUTHORIZED = 401
+
+const StubView = defineComponent({ template: '<div />' })
+
+const createTestRouter = () =>
+  createRouter({
+    history: createMemoryHistory(),
+    routes: [
+      { path: '/', name: ROUTE_NAME_HOME, component: StubView },
+      { path: '/login', name: ROUTE_NAME_LOGIN, component: StubView },
+      { path: '/profile', name: 'profile', component: StubView },
+    ],
+  })
+
+let router: Router
 
 const createResponse = (options: { ok: boolean; status: number; payload: unknown }): Response =>
   ({
@@ -46,6 +62,7 @@ afterEach(() => {
 describe('LoginView', () => {
   beforeEach(async () => {
     localStorage.clear()
+    router = createTestRouter()
     await router.replace({ name: ROUTE_NAME_LOGIN })
     await router.isReady()
   })
