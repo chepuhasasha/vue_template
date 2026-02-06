@@ -16,6 +16,9 @@
   "home.sessionLabel": "Идентификатор сессии",
   "home.sessionMissing": "Сессия не найдена.",
   "home.logout": "Выйти",
+  "notFound.title": "Страница не найдена",
+  "notFound.subtitle": "Похоже, такой страницы не существует или она была перемещена.",
+  "notFound.homeAction": "На главную",
   "auth.invalidCredentials": "Неверный логин или пароль.",
   "auth.unknownError": "Не удалось выполнить вход. Проверьте логин и пароль."
 }

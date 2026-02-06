@@ -24,14 +24,14 @@ describe('App', () => {
 
     const languageButton = screen.getByTestId(getTestId('header-language-toggle'))
 
-    expect(languageButton).toHaveTextContent('RU')
-
-    await fireEvent.click(languageButton)
-
     expect(languageButton).toHaveTextContent('EN')
 
     await fireEvent.click(languageButton)
 
     expect(languageButton).toHaveTextContent('RU')
+
+    await fireEvent.click(languageButton)
+
+    expect(languageButton).toHaveTextContent('EN')
   })
 })

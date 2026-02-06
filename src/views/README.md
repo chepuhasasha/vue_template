@@ -35,3 +35,4 @@ src/views/Profile/
 | --- | --- | --- |
 | Home | `src/views/Home/View.vue` | `/` |
 | Login | `src/views/Login/View.vue` | `/login` |
+| NotFound | `src/views/NotFound/View.vue` | `/:pathMatch(.*)*` |

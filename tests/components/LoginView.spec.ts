@@ -70,7 +70,7 @@ describe('LoginView', () => {
   it('рендерит заголовок и подсказку', async () => {
     await renderLogin()
 
-    expect(screen.getByTestId(getTestId('login-title'))).toHaveTextContent('Вход')
+    expect(screen.getByTestId(getTestId('login-title'))).toHaveTextContent('Sign in')
     expect(screen.getByTestId(getTestId('login-hint'))).toBeInTheDocument()
   })
 

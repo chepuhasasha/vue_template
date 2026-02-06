@@ -1,15 +1,17 @@
-import ru from './ru.json'
 import en from './en.json'
+import ru from './ru.json'
 
-export const LOCALES = ['ru', 'en'] as const
+export const LOCALES = ['en', 'ru'] as const
 
 export type Locale = (typeof LOCALES)[number]
 
-export const DEFAULT_LOCALE: Locale = 'ru'
+export const DEFAULT_LOCALE: Locale = 'en'
 
-export const translations = {
-  ru,
+type DefaultTranslations = typeof en
+
+export const translations: Record<Locale, Partial<DefaultTranslations>> = {
   en,
-} as const
+  ru,
+}
 
-export type TranslationKey = keyof typeof ru
+export type TranslationKey = keyof DefaultTranslations

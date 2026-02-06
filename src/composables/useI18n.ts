@@ -58,11 +58,13 @@ watch(locale, (value) => {
 const getTranslation = (key: TranslationKey): string => {
   const message = translations[locale.value][key]
 
-  if (message) {
+  if (typeof message === 'string') {
     return message
   }
 
-  return translations[DEFAULT_LOCALE][key] ?? key
+  const fallbackMessage = translations[DEFAULT_LOCALE][key]
+
+  return typeof fallbackMessage === 'string' ? fallbackMessage : key
 }
 
 /**

@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
-import { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN } from '@/router/constants'
+import { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN, ROUTE_NAME_NOT_FOUND } from '@/router/constants'
 import { getSessionId } from '@/services'
 import HomeView from '@/views/Home/View.vue'
 import LoginView from '@/views/Login/View.vue'
+import NotFoundView from '@/views/NotFound/View.vue'
 
-export { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN } from '@/router/constants'
+export { ROUTE_NAME_HOME, ROUTE_NAME_LOGIN, ROUTE_NAME_NOT_FOUND } from '@/router/constants'
 
 const REDIRECT_QUERY_KEY = 'redirect'
 const EMPTY_VALUE = ''
@@ -27,6 +28,11 @@ const routes: RouteRecordRaw[] = [
     meta: {
       guestOnly: true,
     },
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: ROUTE_NAME_NOT_FOUND,
+    component: NotFoundView,
   },
 ]
 
