@@ -1,5 +1,25 @@
 <template lang="pug">
 button.ui-button(
+  v-if="!hasExternalTestId"
+  v-testid="{ id: 'ui-button', suffix: 'root' }"
+  :class="classes"
+  :type="type"
+  :disabled="isDisabled"
+  :aria-busy="loading || undefined"
+  :aria-disabled="isDisabled || undefined"
+)
+  span.ui-button__content(v-if="!loading" v-testid="{ id: 'ui-button', suffix: 'content' }")
+    slot(name="start")
+    span.ui-button__label(v-if="hasDefaultSlot" v-testid="{ id: 'ui-button', suffix: 'label' }")
+      slot
+    slot(name="end")
+  span.ui-button__loader(
+    v-else
+    v-testid="{ id: 'ui-button', suffix: 'loader' }"
+    aria-hidden="true"
+  )
+button.ui-button(
+  v-else
   :class="classes"
   :type="type"
   :disabled="isDisabled"
@@ -20,6 +40,7 @@ button.ui-button(
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
+import { useHasExternalTestId } from '@/plugins'
 
 type UIButtonVariant = 'primary' | 'secondary' | 'ghost'
 type UIButtonSize = 's' | 'm' | 'l'
@@ -47,6 +68,8 @@ const props = withDefaults(
     loading: false,
   },
 )
+
+const hasExternalTestId = useHasExternalTestId()
 
 /**
  * Возвращает количество узлов указанного слота.

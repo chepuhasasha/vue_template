@@ -1,5 +1,45 @@
 <template lang="pug">
-div.ui-input(:class="classes")
+div.ui-input(
+  v-if="!hasExternalTestId"
+  v-testid="{ id: 'ui-input', suffix: 'root' }"
+  :class="classes"
+)
+  label.ui-input__label(
+    v-if="label"
+    v-testid="{ id: 'ui-input', suffix: 'label' }"
+    :for="resolvedId"
+  ) {{ label }}
+  div.ui-input__field(v-testid="{ id: 'ui-input', suffix: 'field' }")
+    input.ui-input__control(
+      v-testid="{ id: 'ui-input', suffix: 'control' }"
+      :id="resolvedId"
+      :name="name"
+      :type="type"
+      :value="modelValue"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :readonly="readonly"
+      :required="required"
+      :aria-invalid="Boolean(error) || undefined"
+      :aria-describedby="describedBy"
+      @input="onInput"
+      @blur="onBlur"
+    )
+    slot(name="end")
+  p.ui-input__hint(
+    v-if="hint"
+    v-testid="{ id: 'ui-input', suffix: 'hint' }"
+    :id="hintId"
+  ) {{ hint }}
+  p.ui-input__error(
+    v-if="error"
+    v-testid="{ id: 'ui-input', suffix: 'error' }"
+    :id="errorId"
+  ) {{ error }}
+div.ui-input(
+  v-else
+  :class="classes"
+)
   label.ui-input__label(
     v-if="label"
     v-testid="{ id: 'ui-input', suffix: 'label' }"
@@ -36,6 +76,7 @@ div.ui-input(:class="classes")
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useHasExternalTestId } from '@/plugins'
 
 type UIInputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number'
 type UIInputSize = 's' | 'm' | 'l'
@@ -72,6 +113,8 @@ const props = withDefaults(
     id: undefined,
   },
 )
+
+const hasExternalTestId = useHasExternalTestId()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void

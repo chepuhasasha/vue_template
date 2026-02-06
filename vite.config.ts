@@ -3,21 +3,11 @@ import { defineConfig, loadEnv, type PluginOption } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-const normalizeBasePath = (value: string) => {
-  const trimmed = value.trim()
-
-  if (!trimmed || trimmed === '/') {
-    return '/'
-  }
-
-  const withLeadingSlash = trimmed.startsWith('/') ? trimmed : `/${trimmed}`
-
-  return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`
-}
+import { normalizeBaseUrl } from './src/utils'
 
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd())
-  const basePath = normalizeBasePath(env.VITE_BASE_URL ?? env.BASE_URL ?? '/')
+  const basePath = normalizeBaseUrl(env.VITE_BASE_URL ?? env.BASE_URL ?? '/')
   const nodeEnv = env.VITE_NODE_ENV ?? mode
   const plugins: PluginOption[] = [vue()]
 

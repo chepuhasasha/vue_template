@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { defineComponent } from 'vue'
 import { config, mount } from '@vue/test-utils'
-import { useTestId } from '@/composables/useTestId'
+import { useTestId } from '@/composables'
 
 const mountWithComposable = (options?: { withGlobalPlugin?: boolean }) => {
   let api!: ReturnType<typeof useTestId>

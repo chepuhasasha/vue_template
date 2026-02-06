@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { useTheme } from '@/composables/useTheme'
+import { useTheme } from '@/composables'
 
 function setMatchMediaDark(isDark: boolean) {
   const mql = {

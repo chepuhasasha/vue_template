@@ -23,7 +23,7 @@
 ### Регистрация
 
 ```ts
-import testIdPlugin from '@/plugins/testId'
+import { testIdPlugin } from '@/plugins'
 
 app.use(testIdPlugin, { prefix: 'app' })
 ```
@@ -59,6 +59,7 @@ type TestIdValue = string | { id: string; prefix?: string; suffix?: string }
 
 - `buildTestId(value, prefix?)` — возвращает итоговый `data-testid` или `undefined`.
 - `useTestId()` — composable из `src/composables/README.md`, который использует глобальный префикс плагина.
+- `useHasExternalTestId()` — возвращает `ComputedRef<boolean>`, показывающий, передан ли на компонент внешний `v-testid`.
 
 ### Примеры
 
@@ -73,9 +74,15 @@ type TestIdValue = string | { id: string; prefix?: string; suffix?: string }
 ```
 
 ```ts
-import { useTestId } from '@/composables/useTestId'
+import { useTestId } from '@/composables'
 
 const { getTestId } = useTestId()
 
 const submitTestId = getTestId({ id: 'submit', suffix: 'button' })
+```
+
+```ts
+import { useHasExternalTestId } from '@/plugins'
+
+const hasExternalTestId = useHasExternalTestId()
 ```

@@ -3,7 +3,7 @@ import { cleanup } from '@testing-library/vue'
 import { config } from '@vue/test-utils'
 import { afterEach, expect, vi } from 'vitest'
 
-import testIdPlugin from '@/plugins/testId'
+import { testIdPlugin } from '@/plugins'
 
 expect.extend(matchers)
 

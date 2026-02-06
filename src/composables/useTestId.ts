@@ -1,6 +1,5 @@
 import { inject } from 'vue'
-import { TEST_ID_PREFIX_KEY } from '@/plugins/testId'
-import { buildTestId, type TestIdValue } from '@/plugins/testId'
+import { TEST_ID_PREFIX_KEY, buildTestId, type TestIdValue } from '@/plugins'
 
 /**
  * Возвращает хелперы для генерации data-testid с учетом глобального префикса.

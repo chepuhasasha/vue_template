@@ -51,7 +51,7 @@
 import { describe, it, expect } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { useTheme } from '@/composables/useTheme'
+import { useTheme } from '@/composables'
 
 describe('useTheme', () => {
   it('применяет класс к body', async () => {

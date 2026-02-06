@@ -1,17 +1,44 @@
 <template lang="pug">
 span.ui-icon(
+  v-if="!hasExternalTestId"
+  v-testid="{ id: 'ui-icon', suffix: 'root' }"
   :class="classes"
   :style="styles"
   aria-hidden="true"
 )
   svg.ui-icon__svg(
     v-if="paths.length"
+    v-testid="{ id: 'ui-icon', suffix: 'svg' }"
     :viewBox="VIEW_BOX"
     xmlns="http://www.w3.org/2000/svg"
   )
     path.ui-icon__path(
       v-for="(pathData, index) in paths"
       :key="`${name}-${index}`"
+      v-testid="{ id: 'ui-icon', suffix: 'path-' + index }"
+      :d="pathData"
+      fill="none"
+      stroke="currentColor"
+      :stroke-width="STROKE_WIDTH"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    )
+span.ui-icon(
+  v-else
+  :class="classes"
+  :style="styles"
+  aria-hidden="true"
+)
+  svg.ui-icon__svg(
+    v-if="paths.length"
+    v-testid="{ id: 'ui-icon', suffix: 'svg' }"
+    :viewBox="VIEW_BOX"
+    xmlns="http://www.w3.org/2000/svg"
+  )
+    path.ui-icon__path(
+      v-for="(pathData, index) in paths"
+      :key="`${name}-${index}`"
+      v-testid="{ id: 'ui-icon', suffix: 'path-' + index }"
       :d="pathData"
       fill="none"
       stroke="currentColor"
@@ -23,6 +50,8 @@ span.ui-icon(
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { normalizeBaseUrl } from '@/utils'
+import { useHasExternalTestId } from '@/plugins'
 
 type UIIconSize = 's' | 'm' | 'l'
 
@@ -38,16 +67,11 @@ const props = withDefaults(
   },
 )
 
+const hasExternalTestId = useHasExternalTestId()
+
 const VIEW_BOX = '0 0 24 24'
 const STROKE_WIDTH = 2
 const CACHE_NAME = 'ui-icon-cache-v1'
-
-/**
- * Возвращает base URL с гарантированным завершающим слешем.
- * @param baseUrl Базовый путь Vite.
- * @returns Base URL с завершающим слешем.
- */
-const normalizeBaseUrl = (baseUrl: string) => baseUrl.replace(/\/?$/, '/')
 
 /**
  * Разбирает содержимое txt-файла на массив path data.

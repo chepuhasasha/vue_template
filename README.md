@@ -5,6 +5,7 @@
 - [Правила разработки](DEVELOPMENT_RULES.md)
 - [Компоненты](src/components/README.md)
 - [Композиции](src/composables/README.md)
+- [Утилиты](src/utils/README.md)
 - [Страницы](src/views/README.md)
 - [Плагины](src/plugins/README.md)
 - [Тесты](tests/README.md)
@@ -33,7 +34,7 @@
 | `npm run format:code`   | Prettier для `src` и `tests`.                                  |
 | `npm run format:styles` | Stylelint для стилей (аналогично `lint:styles`).               |
 | `npm run test`          | Запуск тестов Vitest с покрытием.                              |
-| `npm run precommit`     | Последовательно: `format`, `lint`, `test`.                     |
+| `npm run precommit`     | Последовательно: `type-check`, `format`, `lint`, `test`.       |
 
 ## Переменные окружения
 

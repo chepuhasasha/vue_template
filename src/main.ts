@@ -8,7 +8,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import components from './components'
-import testIdPlugin from './plugins/testId'
+import { testIdPlugin } from './plugins'
 import router from './router'
 
 const app = createApp(App)

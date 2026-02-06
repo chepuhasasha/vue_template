@@ -49,7 +49,7 @@
 ### Примеры
 
 ```ts
-import { useTheme } from '@/composables/useTheme'
+import { useTheme } from '@/composables'
 
 const { isDark, toggle, set } = useTheme()
 
@@ -58,7 +58,7 @@ set(true)
 ```
 
 ```ts
-import { useTheme } from '@/composables/useTheme'
+import { useTheme } from '@/composables'
 
 const { isDark } = useTheme('theme--dark', 'app-theme')
 ```
@@ -98,7 +98,7 @@ type TestIdValue = string | { id: string; prefix?: string; suffix?: string }
 
 ```ts
 import { computed } from 'vue'
-import { useTestId } from '@/composables/useTestId'
+import { useTestId } from '@/composables'
 
 const { getTestId } = useTestId()
 
@@ -106,7 +106,7 @@ const submitTestId = computed(() => getTestId({ id: 'submit', suffix: 'button' }
 ```
 
 ```ts
-import { useTestId } from '@/composables/useTestId'
+import { useTestId } from '@/composables'
 
 const { prefix, getTestId } = useTestId()
 

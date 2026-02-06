@@ -2,11 +2,7 @@ import { describe, it, expect, vi, afterEach } from 'vitest'
 import { defineComponent } from 'vue'
 import { mount, flushPromises } from '@vue/test-utils'
 import UIIcon from '@/components/ui/UIIcon.vue'
-import { buildTestId, type TestIdValue } from '@/plugins/testId'
-
-const testIdPrefix = import.meta.env.VITE_TEST_ID_PREFIX
-const getTestId = (value: TestIdValue) => buildTestId(value, testIdPrefix) ?? ''
-const byTestId = (value: TestIdValue) => `[data-testid="${getTestId(value)}"]`
+import { byTestId } from '../helpers'
 
 const IconWrapper = defineComponent({
   components: { UIIcon },

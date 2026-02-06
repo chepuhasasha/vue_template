@@ -1,3 +1,4 @@
+import { computed, getCurrentInstance, resolveDirective, type ComputedRef } from 'vue'
 import type { DirectiveBinding, App } from 'vue'
 
 export type TestIdValue = string | TestIdConfig
@@ -14,6 +15,25 @@ export interface TestIdPluginOptions {
 export type TestIdDirectiveValue = TestIdValue | null | undefined
 
 export const TEST_ID_PREFIX_KEY = Symbol('test-id-prefix')
+
+/**
+ * Определяет, передан ли на текущий компонент внешний `v-testid` от родителя.
+ * @returns Вычисляемое значение `true`, если на корневой vnode есть директива `v-testid`,
+ * или `false`, если директива отсутствует, плагин не зарегистрирован либо функция вызвана
+ * вне `setup()` (когда нет активного экземпляра компонента).
+ */
+export const useHasExternalTestId = (): ComputedRef<boolean> => {
+  const instance = getCurrentInstance()
+  const testIdDirective = resolveDirective('testid')
+
+  return computed(() => {
+    if (!instance || !testIdDirective) {
+      return false
+    }
+
+    return (instance.vnode.dirs ?? []).some((dir) => dir.dir === testIdDirective)
+  })
+}
 
 /**
  * Нормализует часть идентификатора, убирая лишние пробелы.

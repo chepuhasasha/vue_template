@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { createApp, nextTick, ref, type Ref } from 'vue'
-import testIdPlugin, { type TestIdDirectiveValue, type TestIdPluginOptions } from '@/plugins/testId'
+import { testIdPlugin, type TestIdDirectiveValue, type TestIdPluginOptions } from '@/plugins'
 
 type MountResult = {
   app: ReturnType<typeof createApp>

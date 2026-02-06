@@ -34,8 +34,8 @@
 
 | Метрика    | Минимум |
 | ---------- | ------- |
-| Statements | 80%     |
-| Branches   | 70%     |
+| Statements | 90%     |
+| Branches   | 80%     |
 | Functions  | 80%     |
 | Lines      | 80%     |
 
@@ -44,7 +44,7 @@
 Пример ошибки:
 
 ```bash
-ERROR: Coverage for statements (82.22%) does not meet global threshold (100%) for src/plugins/testId.ts
+ERROR: Coverage for statements (82.22%) does not meet global threshold (90%) for src/plugins/testId.ts
 ```
 
 Если пороги не достигнуты — **не коммитить** изменения до исправления. **Не понижать** пороги ради прохождения проверок.
@@ -61,6 +61,10 @@ ERROR: Coverage for statements (82.22%) does not meet global threshold (100%) fo
 ## Пути и алиасы
 
 - `@` указывает на `src/` (можно использовать в импортах тестов).
+
+## Хелперы
+
+- `tests/helpers.ts` — `getTestId` и `byTestId` для сборки селекторов с учетом `VITE_TEST_ID_PREFIX`.
 
 ## Правила и соглашения
 

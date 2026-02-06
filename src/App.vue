@@ -13,9 +13,9 @@ main.app(v-testid="'root'")
 </template>
 
 <script setup lang="ts">
-import { useTheme } from '@/composables/useTheme'
+import { useTheme } from '@/composables'
 
-const { isDark, toggle, set } = useTheme('theme--dark', 'theme')
+const { isDark, toggle } = useTheme('theme--dark', 'theme')
 </script>
 <style lang="scss">
 .app {

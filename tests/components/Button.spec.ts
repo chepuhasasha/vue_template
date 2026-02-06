@@ -2,11 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import UIButton from '@/components/ui/UIButton.vue'
-import { buildTestId, type TestIdValue } from '@/plugins/testId'
-
-const testIdPrefix = import.meta.env.VITE_TEST_ID_PREFIX
-const getTestId = (value: TestIdValue) => buildTestId(value, testIdPrefix) ?? ''
-const byTestId = (value: TestIdValue) => `[data-testid="${getTestId(value)}"]`
+import { byTestId } from '../helpers'
 
 type ButtonMountOptions = {
   props?: InstanceType<typeof UIButton>['$props']
