@@ -47,7 +47,7 @@ UIButton(variant="secondary" size="s" rounded="false") Отмена
 UIButton(variant="ghost" loading) Загрузка...
 UIButton
     | Добавить
-    template(v-slot:start)
+    template(#start)
         UIIcon(name="activity")
 ```
 
@@ -63,11 +63,11 @@ UIButton
 
 #### Props
 
-| Prop   | Тип                | По умолчанию | Описание                                                             |
-| ------ | ------------------ | ------------ | -------------------------------------------------------------------- |
-| `name` | `string`           | —            | Имя иконки, совпадающее с именем SVG-файла без расширения.            |
-| `size` | `'s' \| 'm' \| 'l'` | `'m'`        | Размер иконки.                                                       |
-| `color` | `string`          | `undefined`  | Цвет иконки (по умолчанию используется `currentColor`).              |
+| Prop    | Тип                 | По умолчанию | Описание                                                   |
+| ------- | ------------------- | ------------ | ---------------------------------------------------------- |
+| `name`  | `string`            | —            | Имя иконки, совпадающее с именем SVG-файла без расширения. |
+| `size`  | `'s' \| 'm' \| 'l'` | `'m'`        | Размер иконки.                                             |
+| `color` | `string`            | `undefined`  | Цвет иконки (по умолчанию используется `currentColor`).    |
 
 #### Поведение и особенности
 
@@ -103,17 +103,20 @@ UIButton(variant="ghost" @click="toggleTheme")
 
 - Для ввода текстовых данных пользователем.
 - В формах, где нужна единая типографика и состояние ошибки.
+- В вертикальных и горизонтальных формах с разным расположением лейбла и ошибок.
 
 #### Props
 
 | Prop          | Тип                                                                         | По умолчанию | Описание                                                           |
 | ------------- | --------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------ |
 | `modelValue`  | `string \| number`                                                          | `''`         | Текущее значение инпута (используется с `v-model`).                |
-| `label`       | `string`                                                                    | `undefined`  | Текстовый лейбл над инпутом.                                       |
+| `label`       | `string`                                                                    | `undefined`  | Текстовый лейбл для поля.                                          |
 | `placeholder` | `string`                                                                    | `undefined`  | Placeholder для поля ввода.                                        |
 | `name`        | `string`                                                                    | `undefined`  | Атрибут `name` для input.                                          |
 | `type`        | `'text' \| 'email' \| 'password' \| 'search' \| 'tel' \| 'url' \| 'number'` | `'text'`     | Тип HTML-инпута.                                                   |
 | `size`        | `'s' \| 'm' \| 'l'`                                                         | `'m'`        | Размер инпута.                                                     |
+| `layout`      | `'vertical' \| 'horizontal'`                                                | `'vertical'` | Компоновка: лейбл сверху/слева, ошибка снизу/справа.               |
+| `icon`        | `string`                                                                    | `undefined`  | Имя иконки слева от поля (из набора UIIcon).                       |
 | `disabled`    | `boolean`                                                                   | `false`      | Отключает поле.                                                    |
 | `readonly`    | `boolean`                                                                   | `false`      | Делает поле только для чтения.                                     |
 | `required`    | `boolean`                                                                   | `false`      | Проставляет атрибут `required`.                                    |
@@ -140,15 +143,17 @@ UIButton(variant="ghost" @click="toggleTheme")
 - При наличии `error` добавляется `aria-invalid` и класс ошибки.
 - При наличии `hint` и `error` компонент формирует `aria-describedby`, связывая input с подсказкой/ошибкой.
 - Если `id` не передан, компонент генерирует уникальный идентификатор автоматически.
+- Если передан `icon`, иконка отображается слева внутри поля ввода.
 
 #### Примеры
 
 ```pug
 UIInput(v-model="email" label="Email" type="email" placeholder="name@example.com")
-UIInput(v-model="search" size="l" hint="Введите запрос")
-    template(v-slot:end)
+UIInput(v-model="search" size="l" icon="search" hint="Введите запрос")
+    template(#end)
         UIIcon(name="alert-circle")
 UIInput(v-model="password" type="password" error="Неверный пароль")
+UIInput(v-model="amount" layout="horizontal" label="Сумма" error="Обязательно")
 ```
 
 ---

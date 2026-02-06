@@ -6,10 +6,14 @@ import { byTestId } from '../helpers'
 
 type InputMountOptions = {
   props?: InstanceType<typeof UIInput>['$props']
+  slots?: {
+    end?: string
+  }
 }
 
 const mountInput = (options: InputMountOptions = {}) => {
-  const { props = {} } = options
+  const { props = {}, slots = {} } = options
+  const endSlot = slots.end ? `<template #end>${slots.end}</template>` : ''
 
   return mount(
     defineComponent({
@@ -18,9 +22,18 @@ const mountInput = (options: InputMountOptions = {}) => {
         return { props }
       },
       template: `
-        <UIInput v-testid="'input'" v-bind="props" />
+        <UIInput v-testid="'input'" v-bind="props">
+          ${endSlot}
+        </UIInput>
       `,
     }),
+    {
+      global: {
+        stubs: {
+          UIIcon: true,
+        },
+      },
+    },
   )
 }
 
@@ -38,6 +51,24 @@ describe('UIInput.vue', () => {
     expect(label.text()).toBe('Email')
     expect(label.attributes('for')).toBe('email-input')
     expect(input.attributes('id')).toBe('email-input')
+  })
+
+  it('рендерит иконку перед input', () => {
+    const w = mountInput({
+      props: {
+        icon: 'user-01',
+      },
+    })
+
+    const field = w.get(byTestId('input')).get(byTestId({ id: 'ui-input', suffix: 'field' }))
+    const row = field.get(byTestId({ id: 'ui-input', suffix: 'row' }))
+    const start = row.get(byTestId({ id: 'ui-input', suffix: 'icon' }))
+    const control = row.get(byTestId({ id: 'ui-input', suffix: 'control' }))
+
+    const children = Array.from(row.element.children)
+
+    expect(children[0]).toBe(start.element)
+    expect(children[1]).toBe(control.element)
   })
 
   it('эмитит update:modelValue при вводе', async () => {
@@ -104,5 +135,13 @@ describe('UIInput.vue', () => {
     expect(
       root.get(byTestId({ id: 'ui-input', suffix: 'control' })).attributes('disabled'),
     ).toBeDefined()
+  })
+
+  it('layout=horizontal добавляет ui-input--horizontal', () => {
+    const w = mountInput({
+      props: { layout: 'horizontal' },
+    })
+
+    expect(w.get(byTestId('input')).classes()).toContain('ui-input--horizontal')
   })
 })

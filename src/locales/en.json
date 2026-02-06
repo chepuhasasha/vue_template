@@ -8,6 +8,8 @@
   "login.loginPlaceholder": "Enter login",
   "login.passwordLabel": "Password",
   "login.passwordPlaceholder": "Enter password",
+  "login.showPassword": "Show password",
+  "login.hidePassword": "Hide password",
   "login.submit": "Sign in",
   "login.hint": "Use your credentials to sign in.",
   "login.success": "Signed in successfully. Session is active.",

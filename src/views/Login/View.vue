@@ -12,21 +12,36 @@ section.login-view(v-testid="'login-root'")
           name="login"
           :label="t('login.loginLabel')"
           :placeholder="t('login.loginPlaceholder')"
+          icon="user-01"
           v-testid="{ id: 'login', suffix: 'login-input' }"
         )
       div.login-view__field(v-testid="'login-password-field'")
         UIInput(
           v-model="password"
           name="password"
-          type="password"
+          :type="passwordInputType"
           :label="t('login.passwordLabel')"
           :placeholder="t('login.passwordPlaceholder')"
+          icon="key-01"
           v-testid="{ id: 'login', suffix: 'password-input' }"
         )
+          template(#end)
+            UIButton.login-view__password-toggle(
+              type="button"
+              variant="ghost"
+              size="s"
+              :aria-label="passwordToggleLabel"
+              :aria-pressed="isPasswordVisible"
+              @click="togglePasswordVisibility"
+              v-testid="{ id: 'login', suffix: 'password-toggle' }"
+            )
+              template(#start)
+                UIIcon(:name="passwordToggleIcon" size='s')
       div.login-view__actions(v-testid="'login-actions'")
         UIButton(
           type="submit"
           block
+          size='l'
           :disabled="isSubmitDisabled"
           :loading="isLoading"
           v-testid="{ id: 'login', suffix: 'submit' }"
@@ -63,12 +78,18 @@ const route = useRoute()
 
 const login = ref('')
 const password = ref('')
+const isPasswordVisible = ref(false)
 const isLoading = ref(false)
 const errorKey = ref<TranslationKey | null>(null)
 
 const normalizedLogin = computed(() => login.value.trim())
 const normalizedPassword = computed(() => password.value.trim())
 const errorMessage = computed(() => (errorKey.value ? t(errorKey.value) : ''))
+const passwordInputType = computed(() => (isPasswordVisible.value ? 'text' : 'password'))
+const passwordToggleIcon = computed(() => (isPasswordVisible.value ? 'eye-off' : 'eye'))
+const passwordToggleLabel = computed(() =>
+  t(isPasswordVisible.value ? 'login.hidePassword' : 'login.showPassword'),
+)
 const isSubmitDisabled = computed(
   () =>
     normalizedLogin.value.length < MIN_LOGIN_LENGTH ||
@@ -88,6 +109,14 @@ const getErrorKey = (error: unknown): TranslationKey => {
   }
 
   return 'auth.unknownError'
+}
+
+/**
+ * Переключает видимость значения пароля в поле ввода.
+ * @returns Ничего не возвращает.
+ */
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value
 }
 
 /**

@@ -8,6 +8,8 @@
   "login.loginPlaceholder": "Введите логин",
   "login.passwordLabel": "Пароль",
   "login.passwordPlaceholder": "Введите пароль",
+  "login.showPassword": "Показать пароль",
+  "login.hidePassword": "Скрыть пароль",
   "login.submit": "Войти",
   "login.hint": "Для входа используйте ваши учётные данные.",
   "login.success": "Авторизация успешна. Сессия активна.",

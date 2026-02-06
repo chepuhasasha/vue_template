@@ -74,6 +74,28 @@ describe('LoginView', () => {
     expect(screen.getByTestId(getTestId('login-hint'))).toBeInTheDocument()
   })
 
+  it('переключает видимость пароля', async () => {
+    await renderLogin()
+
+    const passwordRoot = screen.getByTestId(getTestId({ id: 'login', suffix: 'password-input' }))
+    const passwordInput = within(passwordRoot).getByTestId(
+      getTestId({ id: 'ui-input', suffix: 'control' }),
+    )
+    const toggleButton = screen.getByTestId(getTestId({ id: 'login', suffix: 'password-toggle' }))
+
+    expect(passwordInput).toHaveAttribute('type', 'password')
+    expect(toggleButton).toHaveAttribute('aria-pressed', 'false')
+
+    await fireEvent.click(toggleButton)
+
+    expect(passwordInput).toHaveAttribute('type', 'text')
+    expect(toggleButton).toHaveAttribute('aria-pressed', 'true')
+
+    await fireEvent.click(toggleButton)
+
+    expect(passwordInput).toHaveAttribute('type', 'password')
+  })
+
   it('не редиректит, если сессии нет', async () => {
     await renderLogin()
     await flushPromises()
@@ -103,7 +125,9 @@ describe('LoginView', () => {
 
     await fireEvent.submit(form)
 
-    expect(fetchMock).not.toHaveBeenCalled()
+    const authCalls = fetchMock.mock.calls.filter(([url]) => String(url).includes('/auth/login'))
+
+    expect(authCalls).toHaveLength(0)
   })
 
   it('редиректит на главную после успешного входа', async () => {

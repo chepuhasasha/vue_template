@@ -9,33 +9,45 @@ div.ui-input(
     v-testid="{ id: 'ui-input', suffix: 'label' }"
     :for="resolvedId"
   ) {{ label }}
-  div.ui-input__field(v-testid="{ id: 'ui-input', suffix: 'field' }")
-    input.ui-input__control(
-      v-testid="{ id: 'ui-input', suffix: 'control' }"
-      :id="resolvedId"
-      :name="name"
-      :type="type"
-      :value="modelValue"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :readonly="readonly"
-      :required="required"
-      :aria-invalid="Boolean(error) || undefined"
-      :aria-describedby="describedBy"
-      @input="onInput"
-      @blur="onBlur"
-    )
-    slot(name="end")
-  p.ui-input__hint(
-    v-if="hint"
-    v-testid="{ id: 'ui-input', suffix: 'hint' }"
-    :id="hintId"
-  ) {{ hint }}
-  p.ui-input__error(
-    v-if="error"
-    v-testid="{ id: 'ui-input', suffix: 'error' }"
-    :id="errorId"
-  ) {{ error }}
+  div.ui-input__field(
+    v-testid="{ id: 'ui-input', suffix: 'field' }"
+    :class="fieldClasses"
+  )
+    div.ui-input__row(v-testid="{ id: 'ui-input', suffix: 'row' }")
+      UIIcon.ui-input__icon(
+        v-if="icon"
+        v-testid="{ id: 'ui-input', suffix: 'icon' }"
+        :name="icon"
+        :size="iconSize"
+      )
+      input.ui-input__control(
+        v-testid="{ id: 'ui-input', suffix: 'control' }"
+        :class="controlClasses"
+        :id="resolvedId"
+        :name="name"
+        :type="type"
+        :value="modelValue"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :readonly="readonly"
+        :required="required"
+        :aria-invalid="Boolean(error) || undefined"
+        :aria-describedby="describedBy"
+        @input="onInput"
+        @blur="onBlur"
+      )
+      slot(name="end")
+  div.ui-input__meta(v-if="hint || error")
+    p.ui-input__hint(
+      v-if="hint"
+      v-testid="{ id: 'ui-input', suffix: 'hint' }"
+      :id="hintId"
+    ) {{ hint }}
+    p.ui-input__error(
+      v-if="error"
+      v-testid="{ id: 'ui-input', suffix: 'error' }"
+      :id="errorId"
+    ) {{ error }}
 div.ui-input(
   v-else
   :class="classes"
@@ -45,41 +57,54 @@ div.ui-input(
     v-testid="{ id: 'ui-input', suffix: 'label' }"
     :for="resolvedId"
   ) {{ label }}
-  div.ui-input__field(v-testid="{ id: 'ui-input', suffix: 'field' }")
-    input.ui-input__control(
-      v-testid="{ id: 'ui-input', suffix: 'control' }"
-      :id="resolvedId"
-      :name="name"
-      :type="type"
-      :value="modelValue"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :readonly="readonly"
-      :required="required"
-      :aria-invalid="Boolean(error) || undefined"
-      :aria-describedby="describedBy"
-      @input="onInput"
-      @blur="onBlur"
-    )
-    slot(name="end")
-  p.ui-input__hint(
-    v-if="hint"
-    v-testid="{ id: 'ui-input', suffix: 'hint' }"
-    :id="hintId"
-  ) {{ hint }}
-  p.ui-input__error(
-    v-if="error"
-    v-testid="{ id: 'ui-input', suffix: 'error' }"
-    :id="errorId"
-  ) {{ error }}
+  div.ui-input__field(
+    v-testid="{ id: 'ui-input', suffix: 'field' }"
+    :class="fieldClasses"
+  )
+    div.ui-input__row(v-testid="{ id: 'ui-input', suffix: 'row' }")
+      UIIcon.ui-input__icon(
+        v-if="icon"
+        v-testid="{ id: 'ui-input', suffix: 'icon' }"
+        :name="icon"
+        :size="iconSize"
+      )
+      input.ui-input__control(
+        v-testid="{ id: 'ui-input', suffix: 'control' }"
+        :class="controlClasses"
+        :id="resolvedId"
+        :name="name"
+        :type="type"
+        :value="modelValue"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :readonly="readonly"
+        :required="required"
+        :aria-invalid="Boolean(error) || undefined"
+        :aria-describedby="describedBy"
+        @input="onInput"
+        @blur="onBlur"
+      )
+      slot(name="end")
+  div.ui-input__meta(v-if="hint || error")
+    p.ui-input__hint(
+      v-if="hint"
+      v-testid="{ id: 'ui-input', suffix: 'hint' }"
+      :id="hintId"
+    ) {{ hint }}
+    p.ui-input__error(
+      v-if="error"
+      v-testid="{ id: 'ui-input', suffix: 'error' }"
+      :id="errorId"
+    ) {{ error }}
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, useSlots } from 'vue'
 import { useHasExternalTestId } from '@/plugins'
 
 type UIInputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number'
 type UIInputSize = 's' | 'm' | 'l'
+type UIInputLayout = 'vertical' | 'horizontal'
 
 let inputIdCounter = 0
 
@@ -91,6 +116,8 @@ const props = withDefaults(
     name?: string
     type?: UIInputType
     size?: UIInputSize
+    layout?: UIInputLayout
+    icon?: string
     disabled?: boolean
     readonly?: boolean
     required?: boolean
@@ -105,6 +132,8 @@ const props = withDefaults(
     name: undefined,
     type: 'text',
     size: 'm',
+    layout: 'vertical',
+    icon: undefined,
     disabled: false,
     readonly: false,
     required: false,
@@ -114,6 +143,7 @@ const props = withDefaults(
   },
 )
 
+const slots = useSlots()
 const hasExternalTestId = useHasExternalTestId()
 
 const emit = defineEmits<{
@@ -166,49 +196,92 @@ const getInputClasses = () => ({
   'ui-input--disabled': props.disabled,
   'ui-input--error': Boolean(props.error),
   [`ui-input--${props.size}`]: props.size,
+  [`ui-input--${props.layout}`]: props.layout,
 })
 
 const classes = computed(() => getInputClasses())
 const describedBy = computed(
   () => [hintId.value, errorId.value].filter(Boolean).join(' ') || undefined,
 )
+const hasEndSlot = computed(() => (slots.end?.() ?? []).length > 0)
+const fieldClasses = computed(() => ({
+  'ui-input__field--with-end': hasEndSlot.value,
+}))
+const controlClasses = computed(() => ({
+  'ui-input__control--with-end': hasEndSlot.value,
+}))
+const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
 </script>
 
 <style lang="scss">
 .ui-input {
+  --ui-input-padding-x: 12px;
+  --ui-input-padding-y: 8px;
+  --ui-input-control-padding-y: 6px;
+  --ui-input-row-gap: 8px;
+
   display: flex;
   flex-direction: column;
   gap: 6px;
   color: var(--txt-color-l1);
 
   &__label {
+    line-height: 1;
+    color: var(--txt-color-l1);
     font-size: 13px;
     font-weight: 600;
   }
 
   &__field {
     display: flex;
-    gap: 8px;
     align-items: center;
     transition: border-color 0.2s ease;
     border: 1px solid var(--bdr-color);
-    border-radius: 12px;
     background: var(--bg-color-l1);
-    padding: 0 12px;
+    padding: var(--ui-input-padding-y) var(--ui-input-padding-x);
+    min-width: 0;
 
     &:focus-within {
       border-color: var(--accent-color);
     }
   }
 
+  &__field--with-end {
+    padding-right: 0;
+  }
+
+  &__row {
+    display: flex;
+    gap: var(--ui-input-row-gap);
+    align-items: center;
+    width: 100%;
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    color: var(--txt-color-l2);
+  }
+
   &__control {
+    flex: 1 1 auto;
     outline: none;
     border: none;
     background: transparent;
-    padding: 10px 0;
+    padding: var(--ui-input-control-padding-y) 0;
     width: 100%;
+    min-width: 0;
     color: inherit;
     font-size: 14px;
+  }
+
+  &__control--with-end {
+    padding-right: calc(var(--ui-input-padding-x) - var(--ui-input-row-gap));
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   &__hint {
@@ -229,13 +302,36 @@ const describedBy = computed(
     opacity: 0.6;
   }
 
+  &--horizontal {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0 12px;
+    align-items: center;
+  }
+
+  &--horizontal &__meta {
+    align-items: flex-end;
+    justify-self: end;
+    text-align: right;
+  }
+
+  &--s &__field {
+    --ui-input-padding-x: 10px;
+    --ui-input-padding-y: 6px;
+    --ui-input-control-padding-y: 4px;
+  }
+
   &--s &__control {
-    padding: 6px 0;
     font-size: 12px;
   }
 
+  &--l &__field {
+    --ui-input-padding-x: 14px;
+    --ui-input-padding-y: 10px;
+    --ui-input-control-padding-y: 8px;
+  }
+
   &--l &__control {
-    padding: 14px 0;
     font-size: 16px;
   }
 }

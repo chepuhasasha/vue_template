@@ -11,7 +11,7 @@ main.app(v-testid="'root'")
       )
         | {{ t('language.current') }}
       UIButton(@click="toggle" v-testid="'header-theme-toggle'" rounded)
-        template(v-slot:start)
+        template(#start)
           UIIcon(:name="isDark ? 'moon-01' : 'sun'" size="m")
   section.app__content(v-testid="'content'")
     RouterView
