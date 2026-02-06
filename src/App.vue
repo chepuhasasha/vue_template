@@ -7,10 +7,9 @@ main.app(v-testid="'root'")
         @click="toggleLanguage"
         v-testid="'header-language-toggle'"
         :aria-label="t('language.toggle')"
-        rounded
       )
         | {{ t('language.current') }}
-      UIButton(@click="toggle" v-testid="'header-theme-toggle'" rounded)
+      UIButton(@click="toggle" v-testid="'header-theme-toggle'")
         template(#start)
           UIIcon(:name="isDark ? 'moon-01' : 'sun'" size="m")
   section.app__content(v-testid="'content'")

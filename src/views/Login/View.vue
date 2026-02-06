@@ -3,14 +3,14 @@ section.login-view(v-testid="'login-root'")
   div.login-view__card(v-testid="'login-card'")
     header.login-view__header(v-testid="'login-header'")
       h1.login-view__title(v-testid="'login-title'") {{ t('login.title') }}
-      p.login-view__subtitle(v-testid="'login-subtitle'")
-        | {{ t('login.subtitle') }}
+      p.login-view__subtitle(v-testid="'login-subtitle'" :class="{ 'login-view__subtitle--error': errorMessage }")
+        | {{ errorMessage ? errorMessage : t('login.subtitle') }}
     form.login-view__form(@submit.prevent="onSubmit" v-testid="'login-form'")
       div.login-view__field(v-testid="'login-login-field'")
         UIInput(
           v-model="login"
           name="login"
-          :label="t('login.loginLabel')"
+          size='l'
           :placeholder="t('login.loginPlaceholder')"
           icon="user-01"
           v-testid="{ id: 'login', suffix: 'login-input' }"
@@ -19,8 +19,8 @@ section.login-view(v-testid="'login-root'")
         UIInput(
           v-model="password"
           name="password"
+          size='l'
           :type="passwordInputType"
-          :label="t('login.passwordLabel')"
           :placeholder="t('login.passwordPlaceholder')"
           icon="key-01"
           v-testid="{ id: 'login', suffix: 'password-input' }"
@@ -28,14 +28,15 @@ section.login-view(v-testid="'login-root'")
           template(#end)
             UIButton.login-view__password-toggle(
               type="button"
-              variant="ghost"
+              variant="secondary"
+              size='l'
               :aria-label="passwordToggleLabel"
               :aria-pressed="isPasswordVisible"
               @click="togglePasswordVisibility"
               v-testid="{ id: 'login', suffix: 'password-toggle' }"
             )
               template(#start)
-                UIIcon(:name="passwordToggleIcon" size='s')
+                UIIcon(:name="passwordToggleIcon" size='m')
       div.login-view__actions(v-testid="'login-actions'")
         UIButton(
           type="submit"
@@ -45,9 +46,8 @@ section.login-view(v-testid="'login-root'")
           :loading="isLoading"
           v-testid="{ id: 'login', suffix: 'submit' }"
         ) {{ t('login.submit') }}
-    p.login-view__hint(v-testid="'login-hint'")
-      | {{ t('login.hint') }}
-    p.login-view__error(v-if="errorMessage" v-testid="'login-error'" role="alert") {{ errorMessage }}
+          template(#end)
+            UIIcon(name="log-in-01" size='m' color="var(--accent-foreground-color)")
 </template>
 
 <script setup lang="ts">
@@ -235,12 +235,15 @@ onMounted(() => {
   &__subtitle {
     color: var(--txt-color-l2);
     font-size: 14px;
+    &--error {
+      color: var(--error);
+    }
   }
 
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 0;
   }
 
   &__actions {
@@ -249,11 +252,6 @@ onMounted(() => {
 
   &__hint {
     color: var(--txt-color-l2);
-    font-size: 13px;
-  }
-
-  &__error {
-    color: var(--error);
     font-size: 13px;
   }
 }

@@ -160,7 +160,8 @@ const classes = computed(() => getButtonClasses())
   }
 
   &--secondary {
-    background: var(--bg-color-l3);
+    background: var(--bg-color-l2);
+    border-color: var(--bdr-color);
     color: var(--txt-color-l1);
   }
 
@@ -202,6 +203,7 @@ const classes = computed(() => getButtonClasses())
   &--icon-only {
     padding: 0;
     width: var(--ui-button-height);
+    min-width: var(--ui-button-height);
   }
 }
 

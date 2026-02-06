@@ -13,30 +13,29 @@ div.ui-input(
     v-testid="{ id: 'ui-input', suffix: 'field' }"
     :class="fieldClasses"
   )
-    div.ui-input__row(v-testid="{ id: 'ui-input', suffix: 'row' }")
-      UIIcon.ui-input__icon(
-        v-if="icon"
-        v-testid="{ id: 'ui-input', suffix: 'icon' }"
-        :name="icon"
-        :size="iconSize"
-      )
-      input.ui-input__control(
-        v-testid="{ id: 'ui-input', suffix: 'control' }"
-        :class="controlClasses"
-        :id="resolvedId"
-        :name="name"
-        :type="type"
-        :value="modelValue"
-        :placeholder="placeholder"
-        :disabled="disabled"
-        :readonly="readonly"
-        :required="required"
-        :aria-invalid="Boolean(error) || undefined"
-        :aria-describedby="describedBy"
-        @input="onInput"
-        @blur="onBlur"
-      )
-      slot(name="end")
+    UIIcon.ui-input__icon(
+      v-if="icon"
+      v-testid="{ id: 'ui-input', suffix: 'icon' }"
+      :name="icon"
+      :size="iconSize"
+    )
+    input.ui-input__control(
+      v-testid="{ id: 'ui-input', suffix: 'control' }"
+      :class="controlClasses"
+      :id="resolvedId"
+      :name="name"
+      :type="type"
+      :value="modelValue"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :readonly="readonly"
+      :required="required"
+      :aria-invalid="Boolean(error) || undefined"
+      :aria-describedby="describedBy"
+      @input="onInput"
+      @blur="onBlur"
+    )
+    slot(name="end")
   div.ui-input__meta(v-if="hint || error")
     p.ui-input__hint(
       v-if="hint"
@@ -61,30 +60,29 @@ div.ui-input(
     v-testid="{ id: 'ui-input', suffix: 'field' }"
     :class="fieldClasses"
   )
-    div.ui-input__row(v-testid="{ id: 'ui-input', suffix: 'row' }")
-      UIIcon.ui-input__icon(
-        v-if="icon"
-        v-testid="{ id: 'ui-input', suffix: 'icon' }"
-        :name="icon"
-        :size="iconSize"
-      )
-      input.ui-input__control(
-        v-testid="{ id: 'ui-input', suffix: 'control' }"
-        :class="controlClasses"
-        :id="resolvedId"
-        :name="name"
-        :type="type"
-        :value="modelValue"
-        :placeholder="placeholder"
-        :disabled="disabled"
-        :readonly="readonly"
-        :required="required"
-        :aria-invalid="Boolean(error) || undefined"
-        :aria-describedby="describedBy"
-        @input="onInput"
-        @blur="onBlur"
-      )
-      slot(name="end")
+    UIIcon.ui-input__icon(
+      v-if="icon"
+      v-testid="{ id: 'ui-input', suffix: 'icon' }"
+      :name="icon"
+      :size="iconSize"
+    )
+    input.ui-input__control(
+      v-testid="{ id: 'ui-input', suffix: 'control' }"
+      :class="controlClasses"
+      :id="resolvedId"
+      :name="name"
+      :type="type"
+      :value="modelValue"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :readonly="readonly"
+      :required="required"
+      :aria-invalid="Boolean(error) || undefined"
+      :aria-describedby="describedBy"
+      @input="onInput"
+      @blur="onBlur"
+    )
+    slot(name="end")
   div.ui-input__meta(v-if="hint || error")
     p.ui-input__hint(
       v-if="hint"
@@ -228,18 +226,21 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
     line-height: 1;
     color: var(--txt-color-l1);
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   &__field {
     display: flex;
     align-items: center;
+    gap: var(--ui-input-row-gap);
     transition: border-color 0.2s ease;
     border: 1px solid var(--bdr-color);
+    border-left-width: 4px;
     background: var(--bg-color-l1);
     padding: 0 var(--ui-input-padding-x);
     min-width: 0;
     height: var(--ui-input-height);
+    overflow: hidden;
 
     &:focus-within {
       border-color: var(--accent-color);
@@ -248,14 +249,6 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
 
   &__field--with-end {
     padding-right: 0;
-  }
-
-  &__row {
-    display: flex;
-    gap: var(--ui-input-row-gap);
-    align-items: center;
-    width: 100%;
-    height: 100%;
   }
 
   &__icon {
@@ -328,7 +321,7 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
   }
 
   &--l &__field {
-    --ui-input-padding-x: 14px;
+    --ui-input-padding-x: 8px;
     --ui-input-height: var(--ui-size-l);
   }
 
