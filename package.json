@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "mock": "node serverMock.js",
+    "mock": "node api_mock.js",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",

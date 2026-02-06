@@ -25,7 +25,7 @@
 | Скрипт                  | Описание                                                       |
 | ----------------------- | -------------------------------------------------------------- |
 | `npm run dev`           | Локальный dev-сервер Vite.                                     |
-| `npm run mock`          | Мок‑бэкенд API для разработки (Express, `serverMock.js`).       |
+| `npm run mock`          | Мок‑бэкенд API для разработки (Express, `api_mock.js`).        |
 | `npm run build`         | Полная сборка: `type-check` + `build-only`.                    |
 | `npm run preview`       | Предпросмотр production-сборки локально.                       |
 | `npm run build-only`    | Сборка Vite без проверки типов.                                |
@@ -54,9 +54,35 @@
 
 Рекомендуемые значения:
 
-- dev: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=development`, `VITE_API_BASE_URL=`.
-- test: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=test`, `VITE_API_BASE_URL=`.
-- prod: `VITE_DISABLE_TEST_ID=true`, `VITE_BASE_URL=/` (или `/<подпуть>/` при деплое в подпути), `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=production`, `VITE_API_BASE_URL=https://api.example.com`.
+dev:
+
+```bash
+VITE_DISABLE_TEST_ID=false
+VITE_BASE_URL=/
+VITE_TEST_ID_PREFIX=app
+VITE_NODE_ENV=development
+VITE_API_BASE_URL=
+```
+
+test:
+
+```bash
+VITE_DISABLE_TEST_ID=false
+VITE_BASE_URL=/
+VITE_TEST_ID_PREFIX=app
+VITE_NODE_ENV=test
+VITE_API_BASE_URL=
+```
+
+prod:
+
+```bash
+VITE_DISABLE_TEST_ID=true
+VITE_BASE_URL=/ (или /<подпуть>/ при деплое в подпути)
+VITE_TEST_ID_PREFIX=app
+VITE_NODE_ENV=production
+VITE_API_BASE_URL=https://api.example.com
+```
 
 `VITE_BASE_URL` задаёт base в Vite (в том числе `import.meta.env.BASE_URL`) и влияет на URL ассетов и роутинг.
 `VITE_API_BASE_URL` можно оставить пустым для same-origin запросов или указать адрес мок‑сервера/реального API.
@@ -95,7 +121,7 @@
    VITE_API_BASE_URL=http://localhost:3001
    ```
 
-   Сейчас в мок‑сервере реализован `POST /auth/login`, новые эндпойнты добавляйте в `serverMock.js`.
+   Сейчас в мок‑сервере реализован `POST /auth/login`, новые эндпойнты добавляйте в `api_mock.js`.
 
 5. Откройте приложение: `http://localhost:5173`.
 

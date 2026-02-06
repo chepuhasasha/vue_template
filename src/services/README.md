@@ -19,18 +19,18 @@
 
 #### Публичный API
 
-| Экспорт | Тип | Описание |
-| --- | --- | --- |
-| `login` | `(credentials: AuthCredentials) => Promise<AuthSession>` | Выполняет авторизацию и возвращает SID. |
-| `saveSessionId` | `(sid: string) => void` | Сохраняет SID в `localStorage`. |
-| `getSessionId` | `() => string` | Читает SID из `localStorage` (или пустую строку). |
-| `clearSessionId` | `() => void` | Удаляет SID из `localStorage`. |
-| `buildAuthLoginUrl` | `(baseUrl: string, loginPath?: string) => string` | Собирает полный URL эндпойнта авторизации. |
-| `isAuthError` | `(error: unknown) => error is AuthError` | Проверяет, что ошибка имеет тип `AuthError`. |
-| `AUTH_ERROR_INVALID_CREDENTIALS` | `string` | Код ошибки неверных учетных данных. |
-| `AuthError` | `class` | Ошибка авторизации, пригодная для UI-обработки. |
-| `AuthCredentials` | `{ login: string; password: string }` | Тип входных данных авторизации. |
-| `AuthSession` | `{ sid: string }` | Тип успешного ответа авторизации. |
+| Экспорт                          | Тип                                                      | Описание                                          |
+| -------------------------------- | -------------------------------------------------------- | ------------------------------------------------- |
+| `login`                          | `(credentials: AuthCredentials) => Promise<AuthSession>` | Выполняет авторизацию и возвращает SID.           |
+| `saveSessionId`                  | `(sid: string) => void`                                  | Сохраняет SID в `localStorage`.                   |
+| `getSessionId`                   | `() => string`                                           | Читает SID из `localStorage` (или пустую строку). |
+| `clearSessionId`                 | `() => void`                                             | Удаляет SID из `localStorage`.                    |
+| `buildAuthLoginUrl`              | `(baseUrl: string, loginPath?: string) => string`        | Собирает полный URL эндпойнта авторизации.        |
+| `isAuthError`                    | `(error: unknown) => error is AuthError`                 | Проверяет, что ошибка имеет тип `AuthError`.      |
+| `AUTH_ERROR_INVALID_CREDENTIALS` | `string`                                                 | Код ошибки неверных учетных данных.               |
+| `AuthError`                      | `class`                                                  | Ошибка авторизации, пригодная для UI-обработки.   |
+| `AuthCredentials`                | `{ login: string; password: string }`                    | Тип входных данных авторизации.                   |
+| `AuthSession`                    | `{ sid: string }`                                        | Тип успешного ответа авторизации.                 |
 
 #### Поведение
 
@@ -67,7 +67,7 @@ try {
 
 ### Мок-сервер API
 
-Для разработки используйте мок‑бэкенд `serverMock.js` (Express).  
+Для разработки используйте мок‑бэкенд `api_mock.js` (Express).  
 Запуск: `npm run mock`.
 
 - По умолчанию сервер слушает `http://localhost:3001`.
@@ -79,7 +79,7 @@ try {
 - `POST /auth/login` → `{ "sid": "..." }` при успехе.
 - При неверных данных сервер возвращает `{ "code": "invalid_credentials" }` и статус 400/401/403.
 
-Новые эндпойнты добавляйте в `serverMock.js` и отражайте изменения в документации сервисов.
+Новые эндпойнты добавляйте в `api_mock.js` и отражайте изменения в документации сервисов.
 
 ### Ошибки
 
