@@ -8,17 +8,18 @@ type ButtonMountOptions = {
   props?: InstanceType<typeof UIButton>['$props']
   label?: string
   startIcon?: boolean
+  endIcon?: boolean
 }
 
 const mountButton = (options: ButtonMountOptions = {}) => {
-  const { props = {}, label, startIcon = false } = options
+  const { props = {}, label, startIcon = false, endIcon = false } = options
   const hasLabel = typeof label !== 'undefined'
 
   return mount(
     defineComponent({
       components: { UIButton },
       setup() {
-        return { props, label, hasLabel, startIcon }
+        return { props, label, hasLabel, startIcon, endIcon }
       },
       template: `
         <UIButton v-testid="'btn'" v-bind="props">
@@ -26,6 +27,9 @@ const mountButton = (options: ButtonMountOptions = {}) => {
             <span v-testid="'icon'">★</span>
           </template>
           <template v-slot:default v-if="hasLabel">{{ label }}</template>
+          <template v-slot:end v-if="endIcon">
+            <span v-testid="'end'">→</span>
+          </template>
         </UIButton>
       `,
     }),
@@ -78,5 +82,13 @@ describe('UIButton.vue', () => {
 
     expect(w.get(byTestId('btn')).attributes('disabled')).toBeDefined()
     expect(w.get(byTestId({ id: 'ui-button', suffix: 'loader' })).exists()).toBe(true)
+  })
+
+  it('end slot добавляет модификатор для распределения контента', () => {
+    const w = mountButton({ label: 'Click', endIcon: true })
+
+    expect(w.get(byTestId({ id: 'ui-button', suffix: 'content' })).classes()).toContain(
+      'ui-button__content--with-end',
+    )
   })
 })

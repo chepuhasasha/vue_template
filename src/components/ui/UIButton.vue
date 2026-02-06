@@ -8,7 +8,11 @@ button.ui-button(
   :aria-busy="loading || undefined"
   :aria-disabled="isDisabled || undefined"
 )
-  span.ui-button__content(v-if="!loading" v-testid="{ id: 'ui-button', suffix: 'content' }")
+  span.ui-button__content(
+    v-if="!loading"
+    v-testid="{ id: 'ui-button', suffix: 'content' }"
+    :class="{ 'ui-button__content--with-end': hasSlot('end') }"
+  )
     slot(name="start")
     span.ui-button__label(v-if="hasDefaultSlot" v-testid="{ id: 'ui-button', suffix: 'label' }")
       slot
@@ -26,7 +30,11 @@ button.ui-button(
   :aria-busy="loading || undefined"
   :aria-disabled="isDisabled || undefined"
 )
-  span.ui-button__content(v-if="!loading" v-testid="{ id: 'ui-button', suffix: 'content' }")
+  span.ui-button__content(
+    v-if="!loading"
+    v-testid="{ id: 'ui-button', suffix: 'content' }"
+    :class="{ 'ui-button__content--with-end': hasSlot('end') }"
+  )
     slot(name="start")
     span.ui-button__label(v-if="hasDefaultSlot" v-testid="{ id: 'ui-button', suffix: 'label' }")
       slot
@@ -141,6 +149,11 @@ const classes = computed(() => getButtonClasses())
     align-items: center;
   }
 
+  &__content--with-end {
+    justify-content: space-between;
+    width: 100%;
+  }
+
   &__label {
     line-height: 1;
   }
@@ -160,8 +173,8 @@ const classes = computed(() => getButtonClasses())
   }
 
   &--secondary {
-    background: var(--bg-color-l2);
     border-color: var(--bdr-color);
+    background: var(--bg-color-l2);
     color: var(--txt-color-l1);
   }
 

@@ -61,11 +61,10 @@ describe('UIInput.vue', () => {
     })
 
     const field = w.get(byTestId('input')).get(byTestId({ id: 'ui-input', suffix: 'field' }))
-    const row = field.get(byTestId({ id: 'ui-input', suffix: 'row' }))
-    const start = row.get(byTestId({ id: 'ui-input', suffix: 'icon' }))
-    const control = row.get(byTestId({ id: 'ui-input', suffix: 'control' }))
+    const start = field.get(byTestId({ id: 'ui-input', suffix: 'icon' }))
+    const control = field.get(byTestId({ id: 'ui-input', suffix: 'control' }))
 
-    const children = Array.from(row.element.children)
+    const children = Array.from(field.element.children)
 
     expect(children[0]).toBe(start.element)
     expect(children[1]).toBe(control.element)

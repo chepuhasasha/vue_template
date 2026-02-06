@@ -9,6 +9,7 @@ section.login-view(v-testid="'login-root'")
       div.login-view__field(v-testid="'login-login-field'")
         UIInput(
           v-model="login"
+          :label='t("login.loginLabel")'
           name="login"
           size='l'
           :placeholder="t('login.loginPlaceholder')"
@@ -18,11 +19,12 @@ section.login-view(v-testid="'login-root'")
       div.login-view__field(v-testid="'login-password-field'")
         UIInput(
           v-model="password"
+          :label='t("login.passwordLabel")'
           name="password"
           size='l'
           :type="passwordInputType"
           :placeholder="t('login.passwordPlaceholder')"
-          icon="key-01"
+          icon="passcode-lock"
           v-testid="{ id: 'login', suffix: 'password-input' }"
         )
           template(#end)
@@ -235,6 +237,7 @@ onMounted(() => {
   &__subtitle {
     color: var(--txt-color-l2);
     font-size: 14px;
+
     &--error {
       color: var(--error);
     }

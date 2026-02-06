@@ -5,7 +5,7 @@ div.ui-input(
   :class="classes"
 )
   label.ui-input__label(
-    v-if="label"
+    v-if="label && !hasInlineLabel"
     v-testid="{ id: 'ui-input', suffix: 'label' }"
     :for="resolvedId"
   ) {{ label }}
@@ -19,22 +19,28 @@ div.ui-input(
       :name="icon"
       :size="iconSize"
     )
-    input.ui-input__control(
-      v-testid="{ id: 'ui-input', suffix: 'control' }"
-      :class="controlClasses"
-      :id="resolvedId"
-      :name="name"
-      :type="type"
-      :value="modelValue"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :readonly="readonly"
-      :required="required"
-      :aria-invalid="Boolean(error) || undefined"
-      :aria-describedby="describedBy"
-      @input="onInput"
-      @blur="onBlur"
-    )
+    .ui-input__area
+      label.ui-input__label(
+        v-if="hasInlineLabel"
+        v-testid="{ id: 'ui-input', suffix: 'label' }"
+        :for="resolvedId"
+      ) {{ label }}
+      input.ui-input__control(
+        v-testid="{ id: 'ui-input', suffix: 'control' }"
+        :class="controlClasses"
+        :id="resolvedId"
+        :name="name"
+        :type="type"
+        :value="modelValue"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :readonly="readonly"
+        :required="required"
+        :aria-invalid="Boolean(error) || undefined"
+        :aria-describedby="describedBy"
+        @input="onInput"
+        @blur="onBlur"
+      )
     slot(name="end")
   div.ui-input__meta(v-if="hint || error")
     p.ui-input__hint(
@@ -52,7 +58,7 @@ div.ui-input(
   :class="classes"
 )
   label.ui-input__label(
-    v-if="label"
+    v-if="label && !hasInlineLabel"
     v-testid="{ id: 'ui-input', suffix: 'label' }"
     :for="resolvedId"
   ) {{ label }}
@@ -66,22 +72,28 @@ div.ui-input(
       :name="icon"
       :size="iconSize"
     )
-    input.ui-input__control(
-      v-testid="{ id: 'ui-input', suffix: 'control' }"
-      :class="controlClasses"
-      :id="resolvedId"
-      :name="name"
-      :type="type"
-      :value="modelValue"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :readonly="readonly"
-      :required="required"
-      :aria-invalid="Boolean(error) || undefined"
-      :aria-describedby="describedBy"
-      @input="onInput"
-      @blur="onBlur"
-    )
+    .ui-input__area
+      label.ui-input__label(
+        v-if="hasInlineLabel"
+        v-testid="{ id: 'ui-input', suffix: 'label' }"
+        :for="resolvedId"
+      ) {{ label }}
+      input.ui-input__control(
+        v-testid="{ id: 'ui-input', suffix: 'control' }"
+        :class="controlClasses"
+        :id="resolvedId"
+        :name="name"
+        :type="type"
+        :value="modelValue"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :readonly="readonly"
+        :required="required"
+        :aria-invalid="Boolean(error) || undefined"
+        :aria-describedby="describedBy"
+        @input="onInput"
+        @blur="onBlur"
+      )
     slot(name="end")
   div.ui-input__meta(v-if="hint || error")
     p.ui-input__hint(
@@ -201,6 +213,7 @@ const classes = computed(() => getInputClasses())
 const describedBy = computed(
   () => [hintId.value, errorId.value].filter(Boolean).join(' ') || undefined,
 )
+const hasInlineLabel = computed(() => props.layout === 'vertical' && Boolean(props.label))
 const hasEndSlot = computed(() => (slots.end?.() ?? []).length > 0)
 const fieldClasses = computed(() => ({
   'ui-input__field--with-end': hasEndSlot.value,
@@ -224,15 +237,17 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
 
   &__label {
     line-height: 1;
-    color: var(--txt-color-l1);
-    font-size: 13px;
+    color: var(--txt-color-l2);
+    font-size: 10px;
     font-weight: 500;
+    padding-top: var(--ui-input-row-gap);
   }
 
   &__field {
     display: flex;
-    align-items: center;
+    position: relative;
     gap: var(--ui-input-row-gap);
+    align-items: center;
     transition: border-color 0.2s ease;
     border: 1px solid var(--bdr-color);
     border-left-width: 4px;
@@ -249,6 +264,13 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
 
   &__field--with-end {
     padding-right: 0;
+  }
+
+  &__area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
   }
 
   &__icon {
@@ -303,6 +325,11 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 0 12px;
     align-items: center;
+    label {
+      font-size: 16px;
+      padding: 0;
+      color: var(--txt-color-l1);
+    }
   }
 
   &--horizontal &__meta {

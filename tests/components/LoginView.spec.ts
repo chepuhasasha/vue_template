@@ -71,7 +71,9 @@ describe('LoginView', () => {
     await renderLogin()
 
     expect(screen.getByTestId(getTestId('login-title'))).toHaveTextContent('Sign in')
-    expect(screen.getByTestId(getTestId('login-hint'))).toBeInTheDocument()
+    expect(screen.getByTestId(getTestId('login-subtitle'))).toHaveTextContent(
+      'Enter your login and password to sign in.',
+    )
   })
 
   it('переключает видимость пароля', async () => {
@@ -210,6 +212,8 @@ describe('LoginView', () => {
     await fireEvent.update(passwordInput, PASSWORD_VALUE)
     await fireEvent.click(submitButton)
 
-    expect(await screen.findByTestId(getTestId('login-error'))).toBeInTheDocument()
+    const subtitle = await screen.findByText('Invalid login or password.')
+
+    expect(subtitle).toHaveClass('login-view__subtitle--error')
   })
 })
