@@ -34,4 +34,4 @@ src/views/Profile/
 | Страница | Файл | Роут |
 | --- | --- | --- |
 | Home | `src/views/Home/View.vue` | `/` |
-| About | `src/views/About/View.vue` | `/about` |
+| Login | `src/views/Login/View.vue` | `/login` |

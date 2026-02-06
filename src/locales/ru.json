@@ -1,0 +1,21 @@
+{
+  "app.title": "Vue template",
+  "language.current": "RU",
+  "language.toggle": "Переключить язык",
+  "login.title": "Вход",
+  "login.subtitle": "Введите логин и пароль, чтобы войти в систему.",
+  "login.loginLabel": "Логин",
+  "login.loginPlaceholder": "Введите логин",
+  "login.passwordLabel": "Пароль",
+  "login.passwordPlaceholder": "Введите пароль",
+  "login.submit": "Войти",
+  "login.hint": "Для входа используйте ваши учётные данные.",
+  "login.success": "Авторизация успешна. Сессия активна.",
+  "home.title": "Главная",
+  "home.subtitle": "Вы вошли в систему. Сессия готова к работе.",
+  "home.sessionLabel": "Идентификатор сессии",
+  "home.sessionMissing": "Сессия не найдена.",
+  "home.logout": "Выйти",
+  "auth.invalidCredentials": "Неверный логин или пароль.",
+  "auth.unknownError": "Не удалось выполнить вход. Проверьте логин и пароль."
+}

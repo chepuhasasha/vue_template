@@ -1,0 +1,21 @@
+{
+  "app.title": "Vue template",
+  "language.current": "EN",
+  "language.toggle": "Switch language",
+  "login.title": "Sign in",
+  "login.subtitle": "Enter your login and password to sign in.",
+  "login.loginLabel": "Login",
+  "login.loginPlaceholder": "Enter login",
+  "login.passwordLabel": "Password",
+  "login.passwordPlaceholder": "Enter password",
+  "login.submit": "Sign in",
+  "login.hint": "Use your credentials to sign in.",
+  "login.success": "Signed in successfully. Session is active.",
+  "home.title": "Home",
+  "home.subtitle": "You are signed in. Your session is ready to use.",
+  "home.sessionLabel": "Session ID",
+  "home.sessionMissing": "Session is missing.",
+  "home.logout": "Sign out",
+  "auth.invalidCredentials": "Invalid login or password.",
+  "auth.unknownError": "Unable to sign in. Check your login and password."
+}

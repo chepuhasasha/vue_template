@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "mock": "node serverMock.js",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
@@ -40,6 +41,7 @@
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.1",
     "eslint-plugin-vue": "~10.5.1",
+    "express": "^4.22.1",
     "jiti": "^2.6.1",
     "jsdom": "^27.3.0",
     "npm-run-all2": "^8.0.4",

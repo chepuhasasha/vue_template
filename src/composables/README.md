@@ -8,6 +8,7 @@
 
 - `useTheme` — управление темой (localStorage и `prefers-color-scheme`).
 - `useTestId` — генерация `data-testid` с учетом глобального префикса.
+- `useI18n` — работа с локализацией и переводами.
 
 ## Правила
 
@@ -111,4 +112,43 @@ import { useTestId } from '@/composables'
 const { prefix, getTestId } = useTestId()
 
 getTestId('save')
+```
+
+---
+
+## useI18n
+
+### Описание
+
+Предоставляет переводчик `t`, текущую локаль и возможность смены локали.
+
+### Сигнатура
+
+`useI18n()`
+
+### Возвращает
+
+| Имя | Тип | Описание |
+| --- | --- | --- |
+| `locale` | `Ref<Locale>` | Текущая локаль приложения. |
+| `t` | `(key: TranslationKey) => string` | Возвращает локализованную строку по ключу. |
+| `setLocale` | `(value: Locale) => void` | Устанавливает локаль и сохраняет её в localStorage. |
+| `availableLocales` | `readonly Locale[]` | Список поддерживаемых локалей. |
+
+### Поведение и особенности
+
+- При инициализации читает локаль из `localStorage`, иначе использует `DEFAULT_LOCALE`.
+- При смене локали сохраняет значение в `localStorage`.
+- Если ключ отсутствует в текущей локали, берёт перевод из `DEFAULT_LOCALE`.
+
+### Примеры
+
+```ts
+import { useI18n } from '@/composables'
+
+const { t, locale, setLocale } = useI18n()
+
+setLocale('en')
+console.log(locale.value)
+console.log(t('login.title'))
 ```

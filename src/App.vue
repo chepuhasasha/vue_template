@@ -1,26 +1,41 @@
 <template lang="pug">
 main.app(v-testid="'root'")
   header.app__header(v-testid="'header'")
-    h1.app__title(v-testid="'header-title'") Vue template
-    UIButton(@click="toggle" v-testid="'header-theme-toggle'" rounded)
-      template(v-slot:start)
-        UIIcon(:name="isDark ? 'moon-01' : 'sun'" size="m")
-  nav.app__nav(v-testid="'navigation'")
-    RouterLink.app__link(to="/" v-testid="'nav-home'") Главная
-    RouterLink.app__link(to="/about" v-testid="'nav-about'") О проекте
+    h1.app__title(v-testid="'header-title'") {{ t('app.title') }}
+    div.app__controls(v-testid="'header-controls'")
+      UIButton(
+        @click="toggleLanguage"
+        v-testid="'header-language-toggle'"
+        :aria-label="t('language.toggle')"
+        rounded
+      )
+        | {{ t('language.current') }}
+      UIButton(@click="toggle" v-testid="'header-theme-toggle'" rounded)
+        template(v-slot:start)
+          UIIcon(:name="isDark ? 'moon-01' : 'sun'" size="m")
   section.app__content(v-testid="'content'")
     RouterView
 </template>
 
 <script setup lang="ts">
-import { useTheme } from '@/composables'
+import { useI18n, useTheme } from '@/composables'
 
 const { isDark, toggle } = useTheme('theme--dark', 'theme')
+const { locale, setLocale, t } = useI18n()
+
+/**
+ * Переключает локаль приложения на альтернативную.
+ * @returns Ничего не возвращает.
+ */
+const toggleLanguage = () => {
+  const nextLocale = locale.value === 'ru' ? 'en' : 'ru'
+  setLocale(nextLocale)
+}
 </script>
 <style lang="scss">
 .app {
   display: grid;
-  grid-template-rows: max-content max-content 1fr;
+  grid-template-rows: max-content 1fr;
   gap: 24px;
   padding: 32px;
 
@@ -35,19 +50,10 @@ const { isDark, toggle } = useTheme('theme--dark', 'theme')
     font-size: 28px;
   }
 
-  &__nav {
+  &__controls {
     display: flex;
-    gap: 16px;
-  }
-
-  &__link {
-    text-decoration: none;
-    color: var(--txt-color-l2);
-
-    &.router-link-active {
-      color: var(--txt-color);
-      font-weight: 600;
-    }
+    gap: 12px;
+    align-items: center;
   }
 
   &__content {

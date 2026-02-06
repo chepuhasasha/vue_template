@@ -5,6 +5,8 @@
 - [Правила разработки](DEVELOPMENT_RULES.md)
 - [Компоненты](src/components/README.md)
 - [Композиции](src/composables/README.md)
+- [Локализация](src/locales/README.md)
+- [Сервисы](src/services/README.md)
 - [Утилиты](src/utils/README.md)
 - [Страницы](src/views/README.md)
 - [Плагины](src/plugins/README.md)
@@ -23,6 +25,7 @@
 | Скрипт                  | Описание                                                       |
 | ----------------------- | -------------------------------------------------------------- |
 | `npm run dev`           | Локальный dev-сервер Vite.                                     |
+| `npm run mock`          | Мок‑бэкенд для авторизации (Express, `serverMock.js`).          |
 | `npm run build`         | Полная сборка: `type-check` + `build-only`.                    |
 | `npm run preview`       | Предпросмотр production-сборки локально.                       |
 | `npm run build-only`    | Сборка Vite без проверки типов.                                |
@@ -47,12 +50,14 @@
 | `VITE_DISABLE_TEST_ID` | `true` / `false`                      | build            | Отключает генерацию `data-testid` через `v-testid`.      |
 | `VITE_TEST_ID_PREFIX`  | строка (например, `app`)              | build            | Глобальный префикс `data-testid` (для плагина `testId`). |
 | `VITE_NODE_ENV`        | `development` / `test` / `production` | build            | Значение `process.env.NODE_ENV`, прокидываемое в сборку. |
+| `VITE_API_BASE_URL`    | строка (например, `https://api`)      | build            | Базовый URL API для запросов авторизации.                |
 
 Рекомендуемые значения:
 
 - dev: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=development`.
-- test: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=test`.
-- prod: `VITE_DISABLE_TEST_ID=true`, `VITE_BASE_URL=/` (или `/<подпуть>/` при деплое в подпути), `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=production`.
+- dev: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=development`, `VITE_API_BASE_URL=`.
+- test: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=test`, `VITE_API_BASE_URL=`.
+- prod: `VITE_DISABLE_TEST_ID=true`, `VITE_BASE_URL=/` (или `/<подпуть>/` при деплое в подпути), `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=production`, `VITE_API_BASE_URL=https://api.example.com`.
 
 `VITE_BASE_URL` задаёт base в Vite (в том числе `import.meta.env.BASE_URL`) и влияет на URL ассетов и роутинг.
 
@@ -78,7 +83,19 @@
    npm run dev
    ```
 
-4. Откройте приложение: `http://localhost:5173`.
+4. (Опционально) Запустите мок‑бэкенд:
+
+   ```bash
+   npm run mock
+   ```
+
+   По умолчанию мок слушает `http://localhost:3001`, поэтому для него укажите в `.env`:
+
+   ```
+   VITE_API_BASE_URL=http://localhost:3001
+   ```
+
+5. Откройте приложение: `http://localhost:5173`.
 
 ### 2. Тестовое окружение (Docker + Nginx)
 
