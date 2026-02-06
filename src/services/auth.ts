@@ -1,3 +1,7 @@
+import { apiFetch, buildApiUrl } from './api'
+
+export { clearSessionId, getSessionId, saveSessionId } from './session'
+
 export type AuthCredentials = {
   login: string
   password: string
@@ -28,11 +32,7 @@ export class AuthError extends Error {
   }
 }
 
-const SESSION_ID_STORAGE_KEY = 'session-id'
-const EMPTY_VALUE = ''
 const DEFAULT_LOGIN_PATH = '/auth/login'
-const PATH_SEPARATOR = '/'
-const TRIM_LAST_CHAR_COUNT = 1
 const HTTP_STATUS_BAD_REQUEST = 400
 const HTTP_STATUS_UNAUTHORIZED = 401
 const HTTP_STATUS_FORBIDDEN = 403
@@ -72,29 +72,8 @@ const normalizeCredentials = (credentials: AuthCredentials): AuthCredentials => 
  * @param loginPath Путь эндпойнта авторизации.
  * @returns Полный URL, по которому выполняется запрос авторизации.
  */
-export const buildAuthLoginUrl = (baseUrl: string, loginPath = DEFAULT_LOGIN_PATH): string => {
-  const trimmedBaseUrl = baseUrl.trim()
-  const normalizedPath = loginPath.startsWith(PATH_SEPARATOR)
-    ? loginPath
-    : `${PATH_SEPARATOR}${loginPath}`
-
-  if (!trimmedBaseUrl) {
-    return normalizedPath
-  }
-
-  const sanitizedBaseUrl = trimmedBaseUrl.endsWith(PATH_SEPARATOR)
-    ? trimmedBaseUrl.slice(0, -TRIM_LAST_CHAR_COUNT)
-    : trimmedBaseUrl
-
-  return `${sanitizedBaseUrl}${normalizedPath}`
-}
-
-/**
- * Возвращает URL авторизации на основе переменных окружения.
- * @returns Полный URL для запроса авторизации.
- */
-const resolveAuthLoginUrl = (): string =>
-  buildAuthLoginUrl(import.meta.env.VITE_API_BASE_URL ?? EMPTY_VALUE)
+export const buildAuthLoginUrl = (baseUrl: string, loginPath = DEFAULT_LOGIN_PATH): string =>
+  buildApiUrl(baseUrl, loginPath)
 
 /**
  * Безопасно читает JSON из ответа, возвращая null при ошибке парсинга.
@@ -135,7 +114,7 @@ export const login = async (credentials: AuthCredentials): Promise<AuthSession> 
     throw new AuthError(AUTH_ERROR_INVALID_CREDENTIALS)
   }
 
-  const response = await fetch(resolveAuthLoginUrl(), {
+  const response = await apiFetch(DEFAULT_LOGIN_PATH, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -160,28 +139,4 @@ export const login = async (credentials: AuthCredentials): Promise<AuthSession> 
   }
 
   return { sid }
-}
-
-/**
- * Сохраняет SID в постоянном хранилище браузера.
- * @param sid Строка идентификатора сессии.
- * @returns Ничего не возвращает.
- */
-export const saveSessionId = (sid: string): void => {
-  localStorage.setItem(SESSION_ID_STORAGE_KEY, sid)
-}
-
-/**
- * Читает SID из постоянного хранилища браузера.
- * @returns Строка SID или пустая строка, если значение отсутствует.
- */
-export const getSessionId = (): string =>
-  localStorage.getItem(SESSION_ID_STORAGE_KEY) ?? EMPTY_VALUE
-
-/**
- * Удаляет SID из постоянного хранилища браузера.
- * @returns Ничего не возвращает.
- */
-export const clearSessionId = (): void => {
-  localStorage.removeItem(SESSION_ID_STORAGE_KEY)
 }

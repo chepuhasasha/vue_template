@@ -39,6 +39,7 @@
 - Для статусов 400/401/403 или `code=invalid_credentials` выбрасывается `AuthError`.
 - Для прочих неуспешных ответов выбрасывается обычная `Error`.
 - SID хранится в `localStorage` по ключу `session-id`.
+- Для подписи API-запросов используйте `apiFetch`, который добавляет SID в заголовок запроса.
 
 #### Пример
 
@@ -54,6 +55,26 @@ try {
   }
 }
 ```
+
+### API
+
+Сервис для унифицированных API-запросов с подписью SID.
+
+#### Публичный API
+
+| Экспорт | Тип | Описание |
+| --- | --- | --- |
+| `apiFetch` | `(path: string, options?: ApiFetchOptions) => Promise<Response>` | Выполняет запрос к API и добавляет SID в заголовок. |
+| `buildApiUrl` | `(baseUrl: string, path: string) => string` | Собирает полный URL API на основе base URL и пути запроса. |
+| `resolveApiUrl` | `(path: string, baseUrl?: string) => string` | Собирает URL API, используя `VITE_API_BASE_URL` по умолчанию. |
+| `API_SESSION_HEADER` | `string` | Имя заголовка для подписи запросов SID. |
+| `ApiFetchOptions` | `type` | Параметры `fetch` с опциями `baseUrl`, `includeSessionId`, `sessionId`. |
+
+#### Поведение
+
+- `apiFetch` добавляет заголовок `X-Session-Id` со значением SID, если он сохранен.
+- Если SID отсутствует, запрос отправляется без подписи.
+- Если `API_SESSION_HEADER` уже задан вручную, он не перезаписывается.
 
 ### URL API
 
