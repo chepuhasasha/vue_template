@@ -26,10 +26,10 @@ const mountButton = (options: ButtonMountOptions = {}) => {
       },
       template: `
         <UIButton v-testid="'btn'" v-bind="props">
-          <template #start v-if="startIcon">
+          <template v-slot:start v-if="startIcon">
             <span v-testid="'icon'">★</span>
           </template>
-          <template #default v-if="hasLabel">{{ label }}</template>
+          <template v-slot:default v-if="hasLabel">{{ label }}</template>
         </UIButton>
       `,
     }),

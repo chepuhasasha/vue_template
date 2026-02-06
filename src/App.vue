@@ -2,8 +2,9 @@
 main.app(v-testid="'root'")
   header.app__header(v-testid="'header'")
     h1.app__title(v-testid="'header-title'") Vue template
-    UIButton(@click="toggle" v-testid="'header-theme-toggle'" rounded)
-      | {{ isDark ? 'Dark' : 'Light' }}
+    UIButton(@click="toggle" v-testid="'header-theme-toggle'" rounded) {{ isDark ? 'Dark' : 'Light' }}
+      template(v-slot:end)
+        UIIcon(:name="isDark ? 'moon-01' : 'sun'" size="m")
   nav.app__nav(v-testid="'navigation'")
     RouterLink.app__link(to="/" v-testid="'nav-home'") Главная
     RouterLink.app__link(to="/about" v-testid="'nav-about'") О проекте

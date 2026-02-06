@@ -47,8 +47,49 @@ UIButton(variant="secondary" size="s" rounded="false") Отмена
 UIButton(variant="ghost" loading) Загрузка...
 UIButton
     | Добавить
-    template(#start)
-        UiIcon(name="plus")
+    template(v-slot:start)
+        UIIcon(name="activity")
+```
+
+---
+
+### UIIcon
+
+Иконка из SVG-реестра с контролем размера.
+
+#### Когда использовать
+
+- Для отображения иконок внутри UI-компонентов или интерфейса.
+
+#### Props
+
+| Prop   | Тип                | По умолчанию | Описание                                                             |
+| ------ | ------------------ | ------------ | -------------------------------------------------------------------- |
+| `name` | `string`           | —            | Имя иконки, совпадающее с именем SVG-файла без расширения.            |
+| `size` | `'s' \| 'm' \| 'l'` | `'m'`        | Размер иконки.                                                       |
+| `color` | `string`          | `undefined`  | Цвет иконки (по умолчанию используется `currentColor`).              |
+
+#### Поведение и особенности
+
+- Иконки лежат в `public/icons` и не попадают в бандл.
+- Для каждой иконки используется `.txt`-файл, где каждая строка — это значение атрибута `d` для `<path>`.
+- Компонент собирает `<svg>` с `viewBox="0 0 24 24"`, `stroke-width="2"`, `stroke-linecap="round"`, `stroke-linejoin="round"`, `fill="none"`.
+- Данные иконок кэшируются в памяти вкладки и в Cache Storage, повторные запросы не выполняются.
+- Цвет задается через `color` или через наследование `currentColor`.
+- Чтобы добавить новую иконку, поместите `.txt` в `public/icons` и используйте `UIIcon` с нужным `name`.
+
+#### Примеры
+
+```pug
+UIIcon(name="activity")
+UIIcon(name="alert-circle" size="l" color="#ff5a5f")
+```
+
+Пример для кнопки переключения темы:
+
+```pug
+UIButton(variant="ghost" @click="toggleTheme")
+    UIIcon(:name="isDark ? 'moon-01' : 'sun'" size="m")
 ```
 
 ---
@@ -104,8 +145,8 @@ UIButton
 ```pug
 UIInput(v-model="email" label="Email" type="email" placeholder="name@example.com")
 UIInput(v-model="search" size="l" hint="Введите запрос")
-    template(#end)
-        UIIcon(name='searh')
+    template(v-slot:end)
+        UIIcon(name="alert-circle")
 UIInput(v-model="password" type="password" error="Неверный пароль")
 ```
 
