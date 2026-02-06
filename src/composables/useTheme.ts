@@ -17,8 +17,10 @@ export function useTheme(className = 'theme--dark', storageKey = 'theme') {
    */
   const apply = (v: boolean) => {
     if (className.includes('--')) {
-      const baseClass = className.split('--')[0]
-      document.body.classList.add(baseClass)
+      const baseClass = className.split('--')[0]?.trim()
+      if (baseClass) {
+        document.body.classList.add(baseClass)
+      }
     }
     document.body.classList.toggle(className, v)
   }

@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig, loadEnv, type PluginOption } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
@@ -19,10 +19,13 @@ export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd())
   const basePath = normalizeBasePath(env.VITE_BASE_URL ?? env.BASE_URL ?? '/')
   const nodeEnv = env.VITE_NODE_ENV ?? mode
-  const plugins = [vue()]
+  const plugins: PluginOption[] = [vue()]
 
   if (command === 'serve') {
-    plugins.push(vueDevTools())
+    const devToolsPlugin = vueDevTools()
+    if (devToolsPlugin) {
+      plugins.push(devToolsPlugin)
+    }
   }
 
   return {

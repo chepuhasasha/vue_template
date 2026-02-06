@@ -2,17 +2,8 @@
   "version": "unreleased",
   "date": "",
   "sections": {
-    "Added": [
-      "Тесты для composable useTestId.",
-      "UIIcon компонент с поддержкой цвета."
-    ],
-    "Changed": [
-      "VITE_TEST_ID_PREFIX и VITE_NODE_ENV читаются из .env и используются в приложении и сборке.",
-      "Плагин vue-devtools подключается только в режиме dev-сервера.",
-      "Удалены ссылки на отсутствующие favicon и manifest из index.html.",
-      "Иконки вынесены в public/icons как txt с атрибутами d, UIIcon собирает SVG на клиенте.",
-      "Загрузка иконок UIIcon кэшируется на уровне вкладки и в Cache Storage.",
-      "Слот-шорткат # в примерах и тестах заменён на явный синтаксис v-slot."
-    ]
+    "Added": [],
+    "Changed": [],
+    "Fixed": []
   }
 }
