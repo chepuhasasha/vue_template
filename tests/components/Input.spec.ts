@@ -2,6 +2,11 @@ import { describe, it, expect } from 'vitest'
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import UIInput from '@/components/ui/UIInput.vue'
+import { buildTestId, type TestIdValue } from '@/plugins/testId'
+
+const testIdPrefix = import.meta.env.VITE_TEST_ID_PREFIX
+const getTestId = (value: TestIdValue) => buildTestId(value, testIdPrefix) ?? ''
+const byTestId = (value: TestIdValue) => `[data-testid="${getTestId(value)}"]`
 
 type InputMountOptions = {
   props?: InstanceType<typeof UIInput>['$props']
@@ -29,10 +34,10 @@ describe('UIInput.vue', () => {
       props: { label: 'Email', id: 'email-input' },
     })
 
-    const root = w.get('[data-testid="input"]')
+    const root = w.get(byTestId('input'))
 
-    const label = root.get('[data-testid="ui-input-label"]')
-    const input = root.get('[data-testid="ui-input-control"]')
+    const label = root.get(byTestId({ id: 'ui-input', suffix: 'label' }))
+    const input = root.get(byTestId({ id: 'ui-input', suffix: 'control' }))
 
     expect(label.text()).toBe('Email')
     expect(label.attributes('for')).toBe('email-input')
@@ -44,7 +49,10 @@ describe('UIInput.vue', () => {
       props: { modelValue: '' },
     })
 
-    await w.get('[data-testid="input"]').get('[data-testid="ui-input-control"]').setValue('hello')
+    await w
+      .get(byTestId('input'))
+      .get(byTestId({ id: 'ui-input', suffix: 'control' }))
+      .setValue('hello')
 
     const inputWrapper = w.getComponent(UIInput)
 
@@ -57,7 +65,7 @@ describe('UIInput.vue', () => {
       props: { modelValue: 'init' },
     })
 
-    const input = w.get('[data-testid="input"]').get('[data-testid="ui-input-control"]')
+    const input = w.get(byTestId('input')).get(byTestId({ id: 'ui-input', suffix: 'control' }))
 
     await input.setValue('done')
     await input.trigger('blur')
@@ -78,14 +86,14 @@ describe('UIInput.vue', () => {
     })
 
     const describedBy = w
-      .get('[data-testid="input"]')
-      .get('[data-testid="ui-input-control"]')
+      .get(byTestId('input'))
+      .get(byTestId({ id: 'ui-input', suffix: 'control' }))
       .attributes('aria-describedby')
 
     expect(describedBy).toBe('name-hint name-error')
-    expect(w.get('[data-testid="ui-input-hint"]').text()).toBe('Подсказка')
-    expect(w.get('[data-testid="ui-input-error"]').text()).toBe('Ошибка')
-    expect(w.get('[data-testid="input"]').classes()).toContain('ui-input--error')
+    expect(w.get(byTestId({ id: 'ui-input', suffix: 'hint' })).text()).toBe('Подсказка')
+    expect(w.get(byTestId({ id: 'ui-input', suffix: 'error' })).text()).toBe('Ошибка')
+    expect(w.get(byTestId('input')).classes()).toContain('ui-input--error')
   })
 
   it('применяет размер и disabled состояние', () => {
@@ -93,10 +101,12 @@ describe('UIInput.vue', () => {
       props: { size: 'l', disabled: true },
     })
 
-    const root = w.get('[data-testid="input"]')
+    const root = w.get(byTestId('input'))
 
     expect(root.classes()).toContain('ui-input--l')
     expect(root.classes()).toContain('ui-input--disabled')
-    expect(root.get('[data-testid="ui-input-control"]').attributes('disabled')).toBeDefined()
+    expect(
+      root.get(byTestId({ id: 'ui-input', suffix: 'control' })).attributes('disabled'),
+    ).toBeDefined()
   })
 })

@@ -2,6 +2,11 @@ import { describe, it, expect } from 'vitest'
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import UIButton from '@/components/ui/UIButton.vue'
+import { buildTestId, type TestIdValue } from '@/plugins/testId'
+
+const testIdPrefix = import.meta.env.VITE_TEST_ID_PREFIX
+const getTestId = (value: TestIdValue) => buildTestId(value, testIdPrefix) ?? ''
+const byTestId = (value: TestIdValue) => `[data-testid="${getTestId(value)}"]`
 
 type ButtonMountOptions = {
   props?: InstanceType<typeof UIButton>['$props']
@@ -35,15 +40,15 @@ describe('UIButton.vue', () => {
   it('рендерит default slot в .ui-button__label', () => {
     const w = mountButton({ label: 'Click' })
 
-    const button = w.get('[data-testid="btn"]')
+    const button = w.get(byTestId('btn'))
 
     expect(button.exists()).toBe(true)
-    expect(w.get('[data-testid="ui-button-label"]').text()).toBe('Click')
+    expect(w.get(byTestId({ id: 'ui-button', suffix: 'label' })).text()).toBe('Click')
   })
 
   it('по умолчанию: primary + m + rounded', () => {
     const w = mountButton()
-    const btn = w.get('[data-testid="btn"]')
+    const btn = w.get(byTestId('btn'))
 
     expect(btn.classes()).toContain('ui-button--primary')
     expect(btn.classes()).toContain('ui-button--m')
@@ -52,30 +57,30 @@ describe('UIButton.vue', () => {
 
   it('variant=secondary добавляет ui-button--secondary', () => {
     const w = mountButton({ props: { variant: 'secondary' } })
-    expect(w.get('[data-testid="btn"]').classes()).toContain('ui-button--secondary')
+    expect(w.get(byTestId('btn')).classes()).toContain('ui-button--secondary')
   })
 
   it('rounded=false убирает ui-button--rounded', () => {
     const w = mountButton({ props: { rounded: false } })
-    expect(w.get('[data-testid="btn"]').classes()).not.toContain('ui-button--rounded')
+    expect(w.get(byTestId('btn')).classes()).not.toContain('ui-button--rounded')
   })
 
   it.each(['s', 'm', 'l'] as const)('size=%s ставит ui-button--%s', (size) => {
     const w = mountButton({ props: { size } })
-    expect(w.get('[data-testid="btn"]').classes()).toContain(`ui-button--${size}`)
+    expect(w.get(byTestId('btn')).classes()).toContain(`ui-button--${size}`)
   })
 
   it('иконка без текста добавляет ui-button--icon-only', () => {
     const w = mountButton({ startIcon: true })
 
-    expect(w.get('[data-testid="btn"]').classes()).toContain('ui-button--icon-only')
-    expect(w.get('[data-testid="icon"]').text()).toBe('★')
+    expect(w.get(byTestId('btn')).classes()).toContain('ui-button--icon-only')
+    expect(w.get(byTestId('icon')).text()).toBe('★')
   })
 
   it('loading=true блокирует кнопку и показывает loader', () => {
     const w = mountButton({ props: { loading: true } })
 
-    expect(w.get('[data-testid="btn"]').attributes('disabled')).toBeDefined()
-    expect(w.get('[data-testid="ui-button-loader"]').exists()).toBe(true)
+    expect(w.get(byTestId('btn')).attributes('disabled')).toBeDefined()
+    expect(w.get(byTestId({ id: 'ui-button', suffix: 'loader' })).exists()).toBe(true)
   })
 })

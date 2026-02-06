@@ -7,7 +7,9 @@ import testIdPlugin from '@/plugins/testId'
 
 expect.extend(matchers)
 
-config.global.plugins = [...(config.global.plugins ?? []), testIdPlugin]
+const testIdPrefix = import.meta.env.VITE_TEST_ID_PREFIX
+
+config.global.plugins = [...(config.global.plugins ?? []), [testIdPlugin, { prefix: testIdPrefix }]]
 
 afterEach(() => {
   cleanup()

@@ -70,6 +70,7 @@ ERROR: Coverage for statements (82.22%) does not meet global threshold (100%) fo
 - В тестах основной селектор — `data-testid` (через `v-testid`), другие селекторы используйте только в крайних случаях.
 - Не задавайте `data-testid` напрямую или через пропсы — используйте `v-testid`.
 - Не опирайтесь на порядок выполнения тестов, изолируйте состояние.
+- Если используется глобальный префикс `VITE_TEST_ID_PREFIX`, собирайте `data-testid` через `buildTestId` из `src/plugins/testId`.
 
 ## Пример структуры теста
 

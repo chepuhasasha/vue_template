@@ -15,20 +15,26 @@ const normalizeBasePath = (value: string) => {
   return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`
 }
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd())
   const basePath = normalizeBasePath(env.VITE_BASE_URL ?? env.BASE_URL ?? '/')
+  const nodeEnv = env.VITE_NODE_ENV ?? mode
+  const plugins = [vue()]
+
+  if (command === 'serve') {
+    plugins.push(vueDevTools())
+  }
 
   return {
     base: basePath,
-    plugins: [vue(), vueDevTools()],
+    plugins,
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
     define: {
-      'process.env.NODE_ENV': '"production"',
+      'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       'process.env': '{}',
     },
   }

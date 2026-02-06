@@ -40,15 +40,18 @@
 - Пользовательские переменные доступны только на этапе сборки и должны иметь префикс `VITE_`.
 - Примеры лежат в `.env.dev.example`, `.env.test.example`, `.env.prod.example`.
 
-| Переменная             | Значение          | Где используется | Описание                                            |
-| ---------------------- | ----------------- | ---------------- | --------------------------------------------------- |
-| `VITE_BASE_URL`        | `/` или `/admin/` | build            | Базовый путь приложения для деплоя в подпути.       |
-| `VITE_DISABLE_TEST_ID` | `true` / `false`  | build            | Отключает генерацию `data-testid` через `v-testid`. |
+| Переменная              | Значение                  | Где используется | Описание                                                      |
+| ----------------------- | ------------------------- | ---------------- | ------------------------------------------------------------- |
+| `VITE_BASE_URL`         | `/` или `/admin/`         | build            | Базовый путь приложения для деплоя в подпути.                 |
+| `VITE_DISABLE_TEST_ID`  | `true` / `false`          | build            | Отключает генерацию `data-testid` через `v-testid`.           |
+| `VITE_TEST_ID_PREFIX`   | строка (например, `app`)  | build            | Глобальный префикс `data-testid` (для плагина `testId`).       |
+| `VITE_NODE_ENV`         | `development` / `test` / `production` | build | Значение `process.env.NODE_ENV`, прокидываемое в сборку. |
 
 Рекомендуемые значения:
 
-- dev/test: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`.
-- prod: `VITE_DISABLE_TEST_ID=true`, `VITE_BASE_URL=/` (или `/<подпуть>/` при деплое в подпути).
+- dev: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=development`.
+- test: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`, `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=test`.
+- prod: `VITE_DISABLE_TEST_ID=true`, `VITE_BASE_URL=/` (или `/<подпуть>/` при деплое в подпути), `VITE_TEST_ID_PREFIX=app`, `VITE_NODE_ENV=production`.
 
 `VITE_BASE_URL` задаёт base в Vite (в том числе `import.meta.env.BASE_URL`) и влияет на URL ассетов и роутинг.
 

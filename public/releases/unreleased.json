@@ -1,5 +1,14 @@
 {
   "version": "unreleased",
   "date": "",
-  "sections": {}
+  "sections": {
+    "Added": [
+      "Тесты для composable useTestId."
+    ],
+    "Changed": [
+      "VITE_TEST_ID_PREFIX и VITE_NODE_ENV читаются из .env и используются в приложении и сборке.",
+      "Плагин vue-devtools подключается только в режиме dev-сервера.",
+      "Удалены ссылки на отсутствующие favicon и manifest из index.html."
+    ]
+  }
 }
