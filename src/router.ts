@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
-import AboutView from '@/views/AboutView.vue'
-import HomeView from '@/views/HomeView.vue'
+import AboutView from '@/views/About/View.vue'
+import HomeView from '@/views/Home/View.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -17,7 +17,7 @@ const routes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
 

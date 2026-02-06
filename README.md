@@ -1,167 +1,264 @@
 # Vue Template
 
-## Обзор проекта
+Шаблон приложения на Vue 3 + Vite. Ниже короткая инструкция, как действовать в трех сценариях: разработка, тестовое окружение и продакшен.
 
-Этот репозиторий — стартовый шаблон приложения на **Vue 3** с готовой базовой инфраструктурой: типизация, линтеры, форматирование, тесты и набор базовых UI-компонентов. Проект собран на **Vite**, поддерживает **Pinia** для состояния и включает **Axios** для запросов. 【F:package.json†L1-L54】
+- [Правила разработки](DEVELOPMENT_RULES.md)
+- [Компоненты](src/components/README.md)
+- [Композиции](src/composables/README.md)
+- [Страницы](src/views/README.md)
+- [Плагины](src/plugins/README.md)
+- [Тесты](tests/README.md)
+- [История изменений](CHANGELOG.md)
 
-## Стек и подключенные инструменты
+## Требования
 
-- **Vue 3** — основной UI-фреймворк. 【F:package.json†L20-L24】
-- **Vite** — сборка и dev-сервер. 【F:package.json†L44-L45】
-- **TypeScript** — типизация. 【F:package.json†L43-L43】
-- **Pinia** — управление состоянием. 【F:package.json†L20-L24】
-- **Vue Router** — маршрутизация между страницами. 【F:package.json†L20-L24】
-- **Axios** — HTTP-клиент для запросов. 【F:package.json†L20-L24】
-- **ESLint** + **Stylelint** + **Prettier** — линтинг и форматирование. 【F:package.json†L26-L42】
-- **Vitest** + Testing Library — тестирование. 【F:package.json†L26-L42】
+- Для локальной разработки: Node.js `^20.19.0` или `>=22.12.0`.
+- Для тестового окружения и продакшена: Docker.
 
-## Архитектура и структура проекта
+## Скрипты проекта
 
-```
-src/
-  assets/          # шрифты, изображения, общие стили
-  assets/styles/   # базовые SCSS: reset, layout, темы, анимации
-  components/      # UI-компоненты и UI Kit (например, UIButton, UIInput)
-  components/ui/   # базовые элементы UI Kit
-  composables/     # композиции (например, useTheme)
-  router/          # конфигурация маршрутов
-  views/           # страницы приложения
-  App.vue          # корневой компонент
-  main.ts          # точка входа приложения
-```
+Все команды запускаются из корня проекта.
 
-### Точка входа
+| Скрипт                  | Описание                                                       |
+| ----------------------- | -------------------------------------------------------------- |
+| `npm run dev`           | Локальный dev-сервер Vite.                                     |
+| `npm run build`         | Полная сборка: `type-check` + `build-only`.                    |
+| `npm run preview`       | Предпросмотр production-сборки локально.                       |
+| `npm run build-only`    | Сборка Vite без проверки типов.                                |
+| `npm run type-check`    | Проверка типов через `vue-tsc`.                                |
+| `npm run lint`          | Линтинг кода и стилей: `lint:code` + `lint:styles`.            |
+| `npm run lint:code`     | ESLint с автопочинкой и кэшем.                                 |
+| `npm run lint:styles`   | Stylelint для `src/**/*.{vue,css,sass,scss}` с автопочинкой.   |
+| `npm run format`        | Форматирование кода и стилей: `format:code` + `format:styles`. |
+| `npm run format:code`   | Prettier для `src` и `tests`.                                  |
+| `npm run format:styles` | Stylelint для стилей (аналогично `lint:styles`).               |
+| `npm run test`          | Запуск тестов Vitest с покрытием.                              |
+| `npm run precommit`     | Последовательно: `format`, `lint`, `test`.                     |
 
-В `src/main.ts` инициализируется приложение, подключаются глобальные стили, Pinia, роутер и глобальные компоненты. 【F:src/main.ts†L1-L19】
+## Переменные окружения
 
-### Маршрутизация
+- Пользовательские переменные доступны только на этапе сборки и должны иметь префикс `VITE_`.
+- Примеры лежат в `.env.dev.example`, `.env.test.example`, `.env.prod.example`.
 
-Конфигурация маршрутов находится в `src/router/index.ts`, страницы расположены в `src/views`. 【F:src/router/index.ts†L1-L21】
+| Переменная             | Значение          | Где используется | Описание                                            |
+| ---------------------- | ----------------- | ---------------- | --------------------------------------------------- |
+| `VITE_BASE_URL`        | `/` или `/admin/` | build            | Базовый путь приложения для деплоя в подпути.       |
+| `VITE_DISABLE_TEST_ID` | `true` / `false`  | build            | Отключает генерацию `data-testid` через `v-testid`. |
 
-### Глобальные компоненты
+Рекомендуемые значения:
 
-Глобальная регистрация компонент организована через `src/components/index.ts` (пример — `UIButton`). 【F:src/components/index.ts†L1-L8】
+- dev/test: `VITE_DISABLE_TEST_ID=false`, `VITE_BASE_URL=/`.
+- prod: `VITE_DISABLE_TEST_ID=true`, `VITE_BASE_URL=/` (или `/<подпуть>/` при деплое в подпути).
 
-### UI Kit
+`VITE_BASE_URL` задаёт base в Vite (в том числе `import.meta.env.BASE_URL`) и влияет на URL ассетов и роутинг.
 
-Базовые элементы UI Kit находятся в `src/components/ui/`. Сейчас доступны:
+## Сценарии
 
-- `UIButton` — кнопка с вариантами (`primary`, `secondary`, `ghost`), размерами и состояниями.
-- `UIInput` — текстовый инпут с лейблом, подсказками и ошибками.
+### 1. Разработка (локально)
 
-Компоненты регистрируются глобально и готовы к расширению (иконки, доп. слоты, состояния). 【F:src/components/index.ts†L1-L22】
+1. Подготовьте локальные переменные:
 
-[Подробная документация по использованию, пропсам и событиям](src/components/ui/README.md).
+   ```bash
+   cp .env.dev.example .env
+   ```
 
-## Правила разработки
-
-Расширенные правила разработки, требования к тестам и документации описаны в отдельном документе: [docs/DEVELOPMENT_RULES.md](docs/DEVELOPMENT_RULES.md).
-
-### data-testid для автотестов
-
-В проекте есть глобальная директива `v-testid`, которая помогает быстро проставлять `data-testid` в разметке. Она поддерживает строку или объект с частями идентификатора и учитывает общий префикс, заданный при установке плагина. 【F:src/plugins/testId.ts†L1-L65】【F:src/utils/testId.ts†L1-L44】
-
-Регистрация выполняется в `main.ts` через плагин `testIdPlugin` (с префиксом `app`). 【F:src/main.ts†L9-L18】
-
-Пример использования директивы:
-
-```vue
-<template lang="pug">
-  main(v-testid="'root'")
-  UIButton(v-testid="{ id: 'submit', suffix: 'icon' }")
-</template>
-```
-
-Также доступна композиция `useTestId`, чтобы формировать идентификаторы в скрипте (например, для динамических атрибутов). 【F:src/composables/useTestId.ts†L1-L19】
-
-```ts
-const { getTestId } = useTestId()
-const testId = getTestId('submit')
-```
-
-### Темизация
-
-Композиция `useTheme` управляет тёмной/светлой темой, используя `localStorage` и `matchMedia`. 【F:src/composables/useTheme.ts†L1-L34】
-
-### Стили
-
-Базовые стили и переменные расположены в `src/assets/styles/`, подключаются в `main.ts`. 【F:src/main.ts†L1-L4】
-
-## Как запустить проект локально
-
-1. Установите зависимости:
+2. Установите зависимости:
 
    ```bash
    npm install
    ```
 
-2. Запуск dev-сервера:
+3. Запустите dev-сервер:
 
    ```bash
    npm run dev
    ```
 
-3. Сборка проекта:
+4. Откройте приложение: `http://localhost:5173`.
+
+### 2. Тестовое окружение (Docker + Nginx)
+
+1. Подготовьте переменные для сборки:
 
    ```bash
-   npm run build
+   cp .env.test.example .env.production
    ```
 
-4. Предпросмотр production-сборки:
+2. Создайте `nginx.conf` и `Dockerfile` (см. раздел [Файлы для Docker + Nginx](#файлы-для-docker--nginx)).
+
+3. Соберите образ:
 
    ```bash
-   npm run preview
+   docker build -t vue-template:test .
    ```
 
-## Проверки качества
+4. Запустите контейнер:
 
-- Форматирование кода:
-  ```bash
-  npm run format
-  ```
-- Линтинг (ESLint + Stylelint):
-  ```bash
-  npm run lint
-  ```
-- Тесты:
-  ```bash
-  npm run test
-  ```
+   ```bash
+   docker run -d --name vue-template-test -p 8080:80 vue-template:test
+   ```
 
-## Продакшн-развёртывание
+5. Проверьте: `http://localhost:8080`.
 
-### 1. Подготовка build
+### 3. Продакшен (Docker + Nginx)
 
-На CI или локально:
+1. Подготовьте переменные для сборки:
+
+   ```bash
+   cp .env.prod.example .env.production
+   ```
+
+2. Соберите образ:
+
+   ```bash
+   docker build -t vue-template:prod .
+   ```
+
+3. Запустите контейнер:
+
+   ```bash
+   docker run -d --name vue-template -p 80:80 --restart unless-stopped vue-template:prod
+   ```
+
+4. Откройте приложение на вашем домене/хосте.
+
+## Файлы для Docker + Nginx
+
+Создайте `nginx.conf` в корне проекта:
+
+```nginx
+events { # блок событий Nginx
+  worker_connections 1024; # максимум соединений на один воркер
+} # конец блока событий
+http { # HTTP-настройки
+  include /etc/nginx/mime.types; # подключить корректные MIME-типы для статики
+  server { # сервер раздачи SPA
+    listen 80; # порт внутри контейнера
+    root /usr/share/nginx/html; # каталог со сборкой приложения
+    index index.html; # основной файл SPA
+    location / { # все входящие запросы приложения
+      try_files $uri $uri/ /index.html; # SPA-фолбэк на index.html
+    } # конец location
+  } # конец server
+} # конец http
+```
+
+Создайте `Dockerfile` в корне проекта:
+
+```Dockerfile
+FROM node:20-alpine AS build
+WORKDIR /admin
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:1.25-alpine
+COPY --from=build /admin/dist /usr/share/nginx/html
+COPY ./nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+## Деплой в подпути (например, `/admin/`)
+
+Как разместить приложение **не в корне домена**, а по адресу вида `https://example.com/admin/`.
+
+### Шаг 1. Выберите подпуть и зафиксируйте формат
+
+Подпуть **должен** начинаться и **заканчиваться** слэшем:
+
+- корректно: `/admin/`
+- некорректно: `/admin`, `admin/`, `admin`
+
+Это критично для генерации URL ассетов и роутинга.
+
+### Шаг 2. Установите `VITE_BASE_URL` **на этапе сборки**
+
+`VITE_BASE_URL` читается **только при сборке**, поэтому при смене подпути нужно пересобирать приложение.
+
+Пример для продакшена:
 
 ```bash
-npm ci
-npm run build
+cp .env.prod.example .env.production
 ```
 
-Результат сборки появится в папке `dist/`.
-
-### 2. Размещение на сервере
-
-Раздавайте содержимое `dist/` через любой HTTP-сервер (Nginx, Caddy, Vercel, Netlify и т.д.).
-
-Пример минимальной конфигурации Nginx:
+В `.env.production` укажите:
 
 ```
-server {
-  listen 80;
-  server_name example.com;
+VITE_BASE_URL=/admin/
+```
 
-  root /var/www/vue_template/dist;
-  index index.html;
+Далее собирайте как обычно (локально или в Docker).
 
-  location / {
-    try_files $uri $uri/ /index.html;
+### Шаг 3. Разместите сборку **в подпапке на сервере**
+
+Если подпуть `/admin/`, то содержимое `dist` должно лежать в папке `admin` внутри web-root.
+
+Пример структуры на сервере:
+
+```
+/usr/share/nginx/html/
+  admin/
+    index.html
+    assets/
+```
+
+### Шаг 4. Настройте веб‑сервер (Nginx пример)
+
+Конфигурация ниже обслуживает SPA **только по подпути** и делает корректный фолбэк на `index.html`.
+
+```nginx
+events { worker_connections 1024; }
+http {
+  include /etc/nginx/mime.types;
+  server {
+    listen 80;
+    root /usr/share/nginx/html;
+
+    # редирект с /admin на /admin/
+    location = /admin {
+      return 301 /admin/;
+    }
+
+    # основное приложение в подпути
+    location /admin/ {
+      try_files $uri $uri/ /admin/index.html;
+    }
   }
 }
 ```
 
-## Примечания
+### Шаг 5. Пример Dockerfile для подпути
 
-- В проекте нет жёстко заданных `.env` переменных — при необходимости добавьте `VITE_`-переменные по стандартам Vite.
-- Версии Node.js указаны в `package.json` — убедитесь, что окружение соответствует требованиям. 【F:package.json†L6-L9】
+Если в подпути `/admin/`, копируйте сборку **в подпапку**:
+
+```Dockerfile
+FROM node:20-alpine AS build
+WORKDIR /admin
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:1.25-alpine
+COPY --from=build /admin/dist /usr/share/nginx/html/admin
+COPY ./nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+### Шаг 6. Проверка
+
+1. Соберите проект с `VITE_BASE_URL=/admin/`.
+2. Откройте `https://example.com/admin/`.
+3. Проверьте, что:
+   - страница открывается,
+   - навигация через `router-link` работает,
+   - ассеты не дают 404.
+
+### Частые проблемы и как их избежать
+
+- **404 на ассетах**: проверьте `VITE_BASE_URL` и что `dist` лежит **в подпапке** (`/admin/`).
+- **Неправильные ссылки**: избегайте абсолютных путей вида `/images/logo.png`. Используйте `import.meta.env.BASE_URL` или стандартный импорт ассетов через Vite.
+- **Нельзя открыть `/admin` без слэша**: добавьте редирект (см. Nginx пример).

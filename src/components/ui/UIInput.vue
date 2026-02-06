@@ -1,8 +1,13 @@
 <template lang="pug">
-div.ui-input(:class="classes" :data-testid="testid")
-  label.ui-input__label(v-if="label" :for="resolvedId") {{ label }}
-  div.ui-input__field
+div.ui-input(:class="classes")
+  label.ui-input__label(
+    v-if="label"
+    v-testid="{ id: 'ui-input', suffix: 'label' }"
+    :for="resolvedId"
+  ) {{ label }}
+  div.ui-input__field(v-testid="{ id: 'ui-input', suffix: 'field' }")
     input.ui-input__control(
+      v-testid="{ id: 'ui-input', suffix: 'control' }"
       :id="resolvedId"
       :name="name"
       :type="type"
@@ -17,8 +22,16 @@ div.ui-input(:class="classes" :data-testid="testid")
       @blur="onBlur"
     )
     slot(name="end")
-  p.ui-input__hint(v-if="hint" :id="hintId") {{ hint }}
-  p.ui-input__error(v-if="error" :id="errorId") {{ error }}
+  p.ui-input__hint(
+    v-if="hint"
+    v-testid="{ id: 'ui-input', suffix: 'hint' }"
+    :id="hintId"
+  ) {{ hint }}
+  p.ui-input__error(
+    v-if="error"
+    v-testid="{ id: 'ui-input', suffix: 'error' }"
+    :id="errorId"
+  ) {{ error }}
 </template>
 
 <script setup lang="ts">
@@ -43,7 +56,6 @@ const props = withDefaults(
     error?: string
     hint?: string
     id?: string
-    testid?: string
   }>(),
   {
     modelValue: '',
@@ -58,7 +70,6 @@ const props = withDefaults(
     error: undefined,
     hint: undefined,
     id: undefined,
-    testid: undefined,
   },
 )
 
@@ -69,6 +80,7 @@ const emit = defineEmits<{
 
 /**
  * Возвращает новый уникальный идентификатор для инпута.
+ * @returns Сгенерированный идентификатор.
  */
 const getNextInputId = () => {
   inputIdCounter += 1
@@ -82,11 +94,14 @@ const errorId = computed(() => (props.error ? `${resolvedId.value}-error` : unde
 
 /**
  * Возвращает значение инпута из события.
+ * @param event Событие input или blur.
+ * @returns Текущее значение инпута.
  */
 const getInputValue = (event: Event) => (event.target as HTMLInputElement).value
 
 /**
  * Обрабатывает ввод текста и эмитит обновление значения.
+ * @param event Событие ввода.
  */
 const onInput = (event: Event) => {
   emit('update:modelValue', getInputValue(event))
@@ -94,6 +109,7 @@ const onInput = (event: Event) => {
 
 /**
  * Обрабатывает уход фокуса и эмитит событие blur.
+ * @param event Событие blur.
  */
 const onBlur = (event: Event) => {
   emit('blur', getInputValue(event))
@@ -101,6 +117,7 @@ const onBlur = (event: Event) => {
 
 /**
  * Возвращает классы инпута на основе размера и статуса.
+ * @returns Объект CSS-классов инпута.
  */
 const getInputClasses = () => ({
   'ui-input--disabled': props.disabled,

@@ -6,12 +6,16 @@ button.ui-button(
   :aria-busy="loading || undefined"
   :aria-disabled="isDisabled || undefined"
 )
-  span.ui-button__content
+  span.ui-button__content(v-if="!loading" v-testid="{ id: 'ui-button', suffix: 'content' }")
     slot(name="start")
-    span.ui-button__label(v-if="hasDefaultSlot")
+    span.ui-button__label(v-if="hasDefaultSlot" v-testid="{ id: 'ui-button', suffix: 'label' }")
       slot
     slot(name="end")
-  span.ui-button__loader(v-if="loading" aria-hidden="true")
+  span.ui-button__loader(
+    v-else
+    v-testid="{ id: 'ui-button', suffix: 'loader' }"
+    aria-hidden="true"
+  )
 </template>
 
 <script setup lang="ts">
@@ -46,11 +50,15 @@ const props = withDefaults(
 
 /**
  * Возвращает количество узлов указанного слота.
+ * @param name Имя слота.
+ * @returns Количество узлов в слоте.
  */
 const getSlotCount = (name: string) => (slots[name]?.() ?? []).length
 
 /**
  * Проверяет наличие слота по имени.
+ * @param name Имя слота.
+ * @returns Есть ли узлы в слоте.
  */
 const hasSlot = (name: string) => getSlotCount(name) > 0
 
@@ -59,6 +67,7 @@ const isDisabled = computed(() => props.disabled || props.loading)
 
 /**
  * Возвращает список классов для кнопки по состояниям и пропсам.
+ * @returns Объект CSS-классов кнопки.
  */
 const getButtonClasses = () => ({
   'ui-button--rounded': props.rounded,

@@ -1,8 +1,13 @@
 import * as matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/vue'
+import { config } from '@vue/test-utils'
 import { afterEach, expect, vi } from 'vitest'
 
+import testIdPlugin from '@/plugins/testId'
+
 expect.extend(matchers)
+
+config.global.plugins = [...(config.global.plugins ?? []), testIdPlugin]
 
 afterEach(() => {
   cleanup()

@@ -1,12 +1,12 @@
 <template lang="pug">
 main.app(v-testid="'root'")
   header.app__header(v-testid="'header'")
-    h1.app__title Vue template
+    h1.app__title(v-testid="'header-title'") Vue template
     UIButton(@click="toggle" v-testid="'header-theme-toggle'" rounded)
       | {{ isDark ? 'Dark' : 'Light' }}
   nav.app__nav(v-testid="'navigation'")
-    RouterLink.app__link(to="/") Главная
-    RouterLink.app__link(to="/about") О проекте
+    RouterLink.app__link(to="/" v-testid="'nav-home'") Главная
+    RouterLink.app__link(to="/about" v-testid="'nav-about'") О проекте
   section.app__content(v-testid="'content'")
     RouterView
 </template>
@@ -14,7 +14,7 @@ main.app(v-testid="'root'")
 <script setup lang="ts">
 import { useTheme } from '@/composables/useTheme'
 
-const { isDark, toggle, set } = useTheme('dark', 'theme')
+const { isDark, toggle, set } = useTheme('theme--dark', 'theme')
 </script>
 <style lang="scss">
 .app {

@@ -12,10 +12,11 @@ import testIdPlugin from './plugins/testId'
 import router from './router'
 
 const app = createApp(App)
+const isTestIdDisabled = import.meta.env.VITE_DISABLE_TEST_ID === 'true'
 
 app.use(createPinia())
 app.use(components)
-app.use(testIdPlugin, { prefix: 'app' })
+app.use(testIdPlugin, { prefix: 'app', enabled: !isTestIdDisabled })
 app.use(router)
 
 app.mount('#app')

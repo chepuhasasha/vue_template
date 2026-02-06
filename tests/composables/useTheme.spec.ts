@@ -49,7 +49,8 @@ describe('useTheme', () => {
     const { isDark } = await mountWithTheme()
 
     expect(isDark.value).toBe(true)
-    expect(document.body.classList.contains('dark')).toBe(true)
+    expect(document.body.classList.contains('theme')).toBe(true)
+    expect(document.body.classList.contains('theme--dark')).toBe(true)
     expect(localStorage.getItem('theme')).toBe('dark')
   })
 
@@ -58,7 +59,8 @@ describe('useTheme', () => {
     const { isDark } = await mountWithTheme()
 
     expect(isDark.value).toBe(true)
-    expect(document.body.classList.contains('dark')).toBe(true)
+    expect(document.body.classList.contains('theme')).toBe(true)
+    expect(document.body.classList.contains('theme--dark')).toBe(true)
     expect(localStorage.getItem('theme')).toBe('dark')
   })
 
@@ -67,7 +69,8 @@ describe('useTheme', () => {
     const { isDark } = await mountWithTheme()
 
     expect(isDark.value).toBe(false)
-    expect(document.body.classList.contains('dark')).toBe(false)
+    expect(document.body.classList.contains('theme')).toBe(true)
+    expect(document.body.classList.contains('theme--dark')).toBe(false)
     expect(localStorage.getItem('theme')).toBe('light')
   })
 
@@ -79,14 +82,16 @@ describe('useTheme', () => {
     await nextTick()
 
     expect(isDark.value).toBe(true)
-    expect(document.body.classList.contains('dark')).toBe(true)
+    expect(document.body.classList.contains('theme')).toBe(true)
+    expect(document.body.classList.contains('theme--dark')).toBe(true)
     expect(localStorage.getItem('theme')).toBe('dark')
 
     toggle()
     await nextTick()
 
     expect(isDark.value).toBe(false)
-    expect(document.body.classList.contains('dark')).toBe(false)
+    expect(document.body.classList.contains('theme')).toBe(true)
+    expect(document.body.classList.contains('theme--dark')).toBe(false)
     expect(localStorage.getItem('theme')).toBe('light')
   })
 
@@ -95,12 +100,14 @@ describe('useTheme', () => {
 
     set(true)
     await nextTick()
-    expect(document.body.classList.contains('dark')).toBe(true)
+    expect(document.body.classList.contains('theme')).toBe(true)
+    expect(document.body.classList.contains('theme--dark')).toBe(true)
     expect(localStorage.getItem('theme')).toBe('dark')
 
     set(false)
     await nextTick()
-    expect(document.body.classList.contains('dark')).toBe(false)
+    expect(document.body.classList.contains('theme')).toBe(true)
+    expect(document.body.classList.contains('theme--dark')).toBe(false)
     expect(localStorage.getItem('theme')).toBe('light')
   })
 
@@ -112,11 +119,13 @@ describe('useTheme', () => {
     })
 
     expect(isDark.value).toBe(true)
+    expect(document.body.classList.contains('theme')).toBe(true)
     expect(document.body.classList.contains('theme--dark')).toBe(true)
     expect(localStorage.getItem('my_key')).toBe('dark')
 
     toggle()
     await nextTick()
+    expect(document.body.classList.contains('theme')).toBe(true)
     expect(document.body.classList.contains('theme--dark')).toBe(false)
     expect(localStorage.getItem('my_key')).toBe('light')
   })
