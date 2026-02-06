@@ -199,6 +199,8 @@ const styles = computed(() => ({
 
 <style lang="scss">
 .ui-icon {
+  --ui-icon-svg-size: 18px;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -206,23 +208,29 @@ const styles = computed(() => ({
 
   &__svg {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: var(--ui-icon-svg-size);
+    height: var(--ui-icon-svg-size);
   }
 
   &--s {
-    width: 16px;
-    height: 16px;
+    --ui-icon-svg-size: 14px;
+
+    width: var(--ui-size-s);
+    height: var(--ui-size-s);
   }
 
   &--m {
-    width: 20px;
-    height: 20px;
+    --ui-icon-svg-size: 18px;
+
+    width: var(--ui-size-m);
+    height: var(--ui-size-m);
   }
 
   &--l {
-    width: 24px;
-    height: 24px;
+    --ui-icon-svg-size: 24px;
+
+    width: var(--ui-size-l);
+    height: var(--ui-size-l);
   }
 }
 </style>

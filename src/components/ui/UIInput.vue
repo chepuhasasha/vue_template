@@ -215,9 +215,8 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
 
 <style lang="scss">
 .ui-input {
+  --ui-input-height: var(--ui-size-m);
   --ui-input-padding-x: 12px;
-  --ui-input-padding-y: 8px;
-  --ui-input-control-padding-y: 6px;
   --ui-input-row-gap: 8px;
 
   display: flex;
@@ -238,8 +237,9 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
     transition: border-color 0.2s ease;
     border: 1px solid var(--bdr-color);
     background: var(--bg-color-l1);
-    padding: var(--ui-input-padding-y) var(--ui-input-padding-x);
+    padding: 0 var(--ui-input-padding-x);
     min-width: 0;
+    height: var(--ui-input-height);
 
     &:focus-within {
       border-color: var(--accent-color);
@@ -255,6 +255,7 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
     gap: var(--ui-input-row-gap);
     align-items: center;
     width: 100%;
+    height: 100%;
   }
 
   &__icon {
@@ -267,9 +268,11 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
     outline: none;
     border: none;
     background: transparent;
-    padding: var(--ui-input-control-padding-y) 0;
+    padding: 0;
     width: 100%;
     min-width: 0;
+    height: 100%;
+    line-height: var(--ui-input-height);
     color: inherit;
     font-size: 14px;
   }
@@ -317,8 +320,7 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
 
   &--s &__field {
     --ui-input-padding-x: 10px;
-    --ui-input-padding-y: 6px;
-    --ui-input-control-padding-y: 4px;
+    --ui-input-height: var(--ui-size-s);
   }
 
   &--s &__control {
@@ -327,8 +329,7 @@ const iconSize = computed(() => (props.size === 'l' ? 'm' : 's'))
 
   &--l &__field {
     --ui-input-padding-x: 14px;
-    --ui-input-padding-y: 10px;
-    --ui-input-control-padding-y: 8px;
+    --ui-input-height: var(--ui-size-l);
   }
 
   &--l &__control {

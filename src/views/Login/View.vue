@@ -29,7 +29,6 @@ section.login-view(v-testid="'login-root'")
             UIButton.login-view__password-toggle(
               type="button"
               variant="ghost"
-              size="s"
               :aria-label="passwordToggleLabel"
               :aria-pressed="isPasswordVisible"
               @click="togglePasswordVisibility"

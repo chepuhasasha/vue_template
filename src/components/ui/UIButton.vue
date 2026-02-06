@@ -62,7 +62,7 @@ const props = withDefaults(
     variant: 'primary',
     size: 'm',
     type: 'button',
-    rounded: true,
+    rounded: false,
     block: false,
     disabled: false,
     loading: false,
@@ -106,6 +106,9 @@ const classes = computed(() => getButtonClasses())
 
 <style lang="scss">
 .ui-button {
+  --ui-button-height: var(--ui-size-m);
+  --ui-button-padding-x: 16px;
+
   display: inline-flex;
   gap: 8px;
   align-items: center;
@@ -118,6 +121,9 @@ const classes = computed(() => getButtonClasses())
     transform 0.2s ease;
   border: 1px solid transparent;
   cursor: pointer;
+  padding: 0 var(--ui-button-padding-x);
+  height: var(--ui-button-height);
+  line-height: 1;
   font-weight: 600;
 
   &:disabled {
@@ -173,22 +179,29 @@ const classes = computed(() => getButtonClasses())
   }
 
   &--s {
-    padding: 6px 12px;
+    --ui-button-height: var(--ui-size-s);
+    --ui-button-padding-x: 12px;
+
     font-size: 12px;
   }
 
   &--m {
-    padding: 10px 16px;
+    --ui-button-height: var(--ui-size-m);
+    --ui-button-padding-x: 16px;
+
     font-size: 14px;
   }
 
   &--l {
-    padding: 14px 22px;
+    --ui-button-height: var(--ui-size-l);
+    --ui-button-padding-x: 22px;
+
     font-size: 16px;
   }
 
   &--icon-only {
-    padding: 8px;
+    padding: 0;
+    width: var(--ui-button-height);
   }
 }
 
